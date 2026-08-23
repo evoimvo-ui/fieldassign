@@ -1,20 +1,20 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/authStore.js';
 import useTaskStore from '../store/taskStore.js';
 import { format } from 'date-fns';
-import { bs } from 'date-fns/locale';
+import { bs, enUS } from 'date-fns/locale';
 
-const STATUS_LABELS = {
-  pending: 'Na čekanju', accepted: 'Prihvaćen',
-  inprogress: 'U toku', completed: 'Završen', rejected: 'Odbijen',
-};
 const PRIORITY_COLORS = { high: 'bg-red-400', medium: 'bg-amber-400', low: 'bg-brand-400' };
 
 export default function DashboardPage() {
+  const { t, i18n } = useTranslation();
   const { user } = useAuthStore();
   const { tasks, loading, fetchTasks } = useTaskStore();
   const navigate = useNavigate();
+
+  const dateLocale = i18n.language === 'bs' ? bs : enUS;
 
   useEffect(() => {
     fetchTasks({ date: format(new Date(), 'yyyy-MM-dd') });
@@ -26,9 +26,9 @@ export default function DashboardPage() {
 
   const greet = () => {
     const h = new Date().getHours();
-    if (h < 12) return 'Dobro jutro';
-    if (h < 18) return 'Dobar dan';
-    return 'Dobro veče';
+    if (h < 12) return t('dashboard.greeting_morning');
+    if (h < 18) return t('dashboard.greeting_day');
+    return t('dashboard.greeting_evening');
   };
 
   return (
@@ -39,17 +39,17 @@ export default function DashboardPage() {
           {greet()}, {user?.name?.split(' ')[0]}
         </h1>
         <p className="text-sm text-gray-400 mt-0.5 capitalize">
-          {format(new Date(), 'EEEE, d. MMMM yyyy.', { locale: bs })}
+          {format(new Date(), 'EEEE, d. MMMM yyyy.', { locale: dateLocale })}
         </p>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         {[
-          { label: 'Ukupno danas', value: tasks.length, color: 'text-gray-900' },
-          { label: 'Završenih', value: completed, color: 'text-brand-600' },
-          { label: 'U toku', value: inprogress, color: 'text-amber-600' },
-          { label: 'Na čekanju', value: pending, color: 'text-gray-500' },
+          { label: t('dashboard.totalToday'), value: tasks.length, color: 'text-gray-900' },
+          { label: t('dashboard.completed'), value: completed, color: 'text-brand-600' },
+          { label: t('dashboard.inProgress'), value: inprogress, color: 'text-amber-600' },
+          { label: t('dashboard.pending'), value: pending, color: 'text-gray-500' },
         ].map((s) => (
           <div key={s.label} className="card p-4">
             <div className="text-xs text-gray-400 mb-1">{s.label}</div>
@@ -60,17 +60,17 @@ export default function DashboardPage() {
 
       {/* Tasks list */}
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-gray-700">Zadaci za danas</h2>
+        <h2 className="text-sm font-semibold text-gray-700">{t('dashboard.todayTasks')}</h2>
         <button onClick={() => navigate('/tasks')} className="text-xs text-brand-600 hover:text-brand-800">
-          Svi zadaci →
+          {t('dashboard.allTasks')}
         </button>
       </div>
 
       {loading ? (
-        <div className="text-sm text-gray-400 py-8 text-center">Učitavanje...</div>
+        <div className="text-sm text-gray-400 py-8 text-center">{t('common.loading')}</div>
       ) : tasks.length === 0 ? (
         <div className="card p-8 text-center">
-          <div className="text-gray-400 text-sm">Nema zadataka za danas</div>
+          <div className="text-gray-400 text-sm">{t('dashboard.noTasks')}</div>
         </div>
       ) : (
         <div className="space-y-2">
@@ -92,7 +92,7 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <span className={`badge badge-${task.status} flex-shrink-0`}>
-                  {STATUS_LABELS[task.status]}
+                  {t(`status.${task.status}`)}
                 </span>
               </div>
             </div>

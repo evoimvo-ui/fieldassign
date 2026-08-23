@@ -1,17 +1,20 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/authStore.js';
-
-const navItems = [
-  { to: '/', label: 'Dashboard', icon: '⊞', exact: true },
-  { to: '/tasks', label: 'Zadaci', icon: '☑' },
-  { to: '/activities', label: 'Aktivnosti', icon: '◎' },
-  { to: '/reports', label: 'Izvještaji', icon: '▤' },
-  { to: '/admin', label: 'Radnici', icon: '◎', adminOnly: true },
-];
+import LanguageSwitcher from './LanguageSwitcher.jsx';
 
 export default function Layout() {
+  const { t } = useTranslation();
   const { user, organization, logout } = useAuthStore();
   const navigate = useNavigate();
+
+  const navItems = [
+    { to: '/', label: t('nav.dashboard'), icon: '⊞', exact: true },
+    { to: '/tasks', label: t('nav.tasks'), icon: '☑' },
+    { to: '/activities', label: t('nav.activities'), icon: '◎' },
+    { to: '/reports', label: t('nav.reports'), icon: '▤' },
+    { to: '/admin', label: t('nav.workers'), icon: '👥', adminOnly: true },
+  ];
 
   const handleLogout = () => {
     logout();
@@ -27,7 +30,7 @@ export default function Layout() {
         {/* Logo */}
         <div className="px-4 py-4 border-b border-gray-100">
           <div className="text-sm font-semibold text-gray-900">FieldAssign</div>
-          <div className="text-xs text-gray-400 mt-0.5">{organization?.name || 'Task · Proof · Report'}</div>
+          <div className="text-xs text-gray-400 mt-0.5">{organization?.name || t('layout.tagline')}</div>
         </div>
 
         {/* Nav */}
@@ -54,8 +57,14 @@ export default function Layout() {
           })}
         </nav>
 
-        {/* User */}
-        <div className="px-3 py-3 border-t border-gray-100">
+        {/* User + Language */}
+        <div className="px-3 py-3 border-t border-gray-100 space-y-2">
+          {/* Language switcher */}
+          <div className="flex justify-start">
+            <LanguageSwitcher />
+          </div>
+
+          {/* User info */}
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-brand-50 flex items-center justify-center text-xs font-semibold text-brand-600 flex-shrink-0">
               {initials}
@@ -67,7 +76,7 @@ export default function Layout() {
             <button
               onClick={handleLogout}
               className="text-gray-400 hover:text-gray-600 text-xs transition-colors"
-              title="Odjava"
+              title={t('common.logout')}
             >
               ⎋
             </button>
