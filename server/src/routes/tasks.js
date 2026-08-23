@@ -124,17 +124,13 @@ router.patch('/:id/status', async (req, res) => {
     if (status === 'completed') task.completedAt = new Date();
     await task.save();
 
-    // Auto-kreiraj sistemsku aktivnost
+    // Auto-kreiraj sistemsku aktivnost (tekst ostavljamo prazan, frontend prevede po `type`)
     await Activity.create({
       task: task._id,
       organization: req.organizationId,
       user: req.user._id,
-      text: {
-        accepted: 'Zadatak prihvaćen',
-        inprogress: 'Početo izvršenje — dolazak na lokaciju',
-        completed: 'Zadatak završen',
-        rejected: 'Zadatak odbijen',
-      }[status] || `Status promijenjen: ${status}`,
+      type: ['accepted', 'inprogress', 'completed', 'rejected'].includes(status) ? status : 'custom',
+      text: '',
       gps: gps ? { ...gps, timestamp: new Date() } : undefined,
     });
 

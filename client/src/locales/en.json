@@ -108,7 +108,11 @@
     "total": "activities total",
     "gpsRecorded": "GPS recorded",
     "evidence": "evidence",
-    "loadingError": "Error loading activities, please try again"
+    "loadingError": "Error loading activities, please try again",
+    "statusAccepted": "Task accepted",
+    "statusInProgress": "Execution started — arrival at location",
+    "statusCompleted": "Task completed",
+    "statusRejected": "Task rejected"
   },
   "reports": {
     "title": "Reports",
@@ -124,6 +128,7 @@
     "accepted": "Accepted",
     "arrival": "Arrival",
     "finished": "Completed",
+    "rejected": "Rejected",
     "activityTimeline": "Activity timeline",
     "noActivities": "No activities",
     "generated": "Report generated",

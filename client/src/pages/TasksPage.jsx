@@ -16,6 +16,16 @@ export default function TasksPage() {
   const [workersError, setWorkersError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
+  const getActivityText = (a) => {
+    const map = {
+      accepted: t('activities.statusAccepted'),
+      inprogress: t('activities.statusInProgress'),
+      completed: t('activities.statusCompleted'),
+      rejected: t('activities.statusRejected'),
+    };
+    return map[a.type] || a.text || '';
+  };
+
   useEffect(() => {
     fetchTasks();
     if (user?.role === 'admin') {
@@ -211,7 +221,7 @@ export default function TasksPage() {
                           <span className="text-xs text-gray-400">
                             {new Date(a.timestamp).toLocaleTimeString(i18nLocale(), { hour: '2-digit', minute: '2-digit' })}
                           </span>
-                          <span className="text-xs text-gray-700">{a.text}</span>
+                          <span className="text-xs text-gray-700">{getActivityText(a)}</span>
                         </div>
                         {a.note && <div className="text-xs text-gray-400 mt-0.5">{a.note}</div>}
                         {a.gps?.lat && <div className="text-xs text-brand-600 mt-0.5">📍 {t('tasks.gpsRecorded')}</div>}

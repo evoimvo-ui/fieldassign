@@ -24,6 +24,16 @@ export default function ActivitiesPage() {
 
   const locale = localStorage.getItem('fo_lang') === 'en' ? 'en-GB' : 'bs-BA';
 
+  const getActivityText = (a) => {
+    const map = {
+      accepted: t('activities.statusAccepted'),
+      inprogress: t('activities.statusInProgress'),
+      completed: t('activities.statusCompleted'),
+      rejected: t('activities.statusRejected'),
+    };
+    return map[a.type] || a.text || '';
+  };
+
   return (
     <div className="p-6 max-w-2xl">
       <div className="flex items-center justify-between mb-6">
@@ -55,7 +65,7 @@ export default function ActivitiesPage() {
               </div>
               <div className="w-2 h-2 rounded-full bg-brand-400 mt-1.5 flex-shrink-0" />
               <div className="flex-1 min-w-0">
-                <div className="text-sm text-gray-800">{a.text}</div>
+                <div className="text-sm text-gray-800">{getActivityText(a)}</div>
                 {a.task?.title && <div className="text-xs text-gray-400 mt-0.5">{a.task.title}</div>}
                 {a.note && <div className="text-xs text-gray-500 mt-0.5">{a.note}</div>}
                 {a.gps?.lat && <div className="text-xs text-brand-600 mt-0.5">📍 {t('activities.gpsRecorded')}</div>}

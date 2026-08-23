@@ -108,7 +108,11 @@
     "total": "aktivnosti ukupno",
     "gpsRecorded": "GPS zabilježen",
     "evidence": "dokaz(a)",
-    "loadingError": "Došlo je do greške pri učitavanju aktivnosti, pokušajte ponovo"
+    "loadingError": "Došlo je do greške pri učitavanju aktivnosti, pokušajte ponovo",
+    "statusAccepted": "Zadatak prihvaćen",
+    "statusInProgress": "Početo izvršenje — dolazak na lokaciju",
+    "statusCompleted": "Zadatak završen",
+    "statusRejected": "Zadatak odbijen"
   },
   "reports": {
     "title": "Izvještaji",
@@ -124,6 +128,7 @@
     "accepted": "Prihvaćen",
     "arrival": "Dolazak",
     "finished": "Završeno",
+    "rejected": "Odbijen",
     "activityTimeline": "Timeline aktivnosti",
     "noActivities": "Nema aktivnosti",
     "generated": "Izvještaj generisan",

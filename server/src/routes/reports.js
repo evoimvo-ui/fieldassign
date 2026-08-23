@@ -40,6 +40,7 @@ router.get('/task/:taskId', async (req, res) => {
       activities: activities.map(a => ({
         time: new Date(a.timestamp).toLocaleTimeString('bs-BA', { hour: '2-digit', minute: '2-digit' }),
         text: a.text,
+        type: a.type,
         note: a.note,
         evidence: a.evidence,
         gps: a.gps,

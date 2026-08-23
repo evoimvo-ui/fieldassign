@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { format } from 'date-fns';
 import api from '../services/api.js';
+import useAuthStore from '../store/authStore.js';
 
 export default function ReportsPage() {
   const { t } = useTranslation();
+  const { organization } = useAuthStore();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
@@ -35,7 +37,7 @@ export default function ReportsPage() {
 
   return (
     <div className="flex h-full overflow-hidden">
-      {/* Left: task list */}
+      {/* Left: task list — sakriveno pri printanju automatski (visibility trik u CSS-u) */}
       <div className="w-72 border-r border-gray-100 overflow-y-auto p-4 bg-white">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-sm font-semibold text-gray-900">{t('reports.title')}</h1>
@@ -85,7 +87,26 @@ export default function ReportsPage() {
         ) : reportLoading ? (
           <div className="text-sm text-gray-400 text-center py-12">{t('reports.generating')}</div>
         ) : report ? (
-          <div className="max-w-2xl">
+          // Sve unutar #printable-area ostaje vidljivo pri printanju, sve ostalo na stranici se sakrije
+          <div id="printable-area" className="max-w-2xl">
+
+            {/* Letterhead — vidljiv SAMO pri printanju */}
+            <div className="print-only mb-6 pb-4 border-b-2 border-gray-800">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-lg font-bold text-gray-900">FieldAssign</div>
+                  {organization?.name && (
+                    <div className="text-sm text-gray-600 mt-0.5">{organization.name}</div>
+                  )}
+                </div>
+                <div className="text-right text-xs text-gray-500">
+                  <div>{t('reports.generated')}:</div>
+                  <div>{format(new Date(), 'dd.MM.yyyy. HH:mm')}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Report header */}
             <div className="flex items-start justify-between mb-6">
               <div>
                 <h2 className="text-lg font-semibold text-gray-900">{report.task.title}</h2>
@@ -94,7 +115,10 @@ export default function ReportsPage() {
                   {report.task.timeStart && ` · ${report.task.timeStart}${report.task.timeEnd ? ` – ${report.task.timeEnd}` : ''}`}
                 </p>
               </div>
-              <button className="btn text-xs" onClick={() => window.print()}>🖨 {t('common.print')}</button>
+              {/* Dugme za print se NE printa (print-hidden) */}
+              <button className="btn text-xs print-hidden" onClick={() => window.print()}>
+                🖨 {t('common.print')}
+              </button>
             </div>
 
             {/* Info grid */}
@@ -161,7 +185,7 @@ export default function ReportsPage() {
               ) : (
                 <div>
                   {report.activities.map((a, i) => (
-                    <div key={i} className="flex gap-3 pb-4 last:pb-0">
+                    <div key={i} className="timeline-item flex gap-3 pb-4 last:pb-0">
                       <div className="flex flex-col items-center">
                         <div className="w-2 h-2 rounded-full bg-brand-400 flex-shrink-0 mt-0.5" />
                         {i < report.activities.length - 1 && <div className="w-px flex-1 bg-gray-100 mt-1" />}
@@ -181,8 +205,19 @@ export default function ReportsPage() {
               )}
             </div>
 
+            {/* Footer — vidljiv i na ekranu i pri printanju */}
             <div className="mt-4 text-xs text-gray-400 text-right">
               {t('reports.generated')}: {format(new Date(report.generatedAt), 'dd.MM.yyyy. HH:mm')}
+            </div>
+
+            {/* Potpis linija — SAMO pri printanju */}
+            <div className="print-only mt-12 grid grid-cols-2 gap-8 text-xs text-gray-500">
+              <div>
+                <div className="border-t border-gray-400 pt-2">Potpis radnika</div>
+              </div>
+              <div>
+                <div className="border-t border-gray-400 pt-2">Potpis / pečat firme</div>
+              </div>
             </div>
           </div>
         ) : (

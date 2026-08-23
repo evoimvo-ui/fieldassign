@@ -62,3 +62,63 @@
   .badge-medium { @apply bg-amber-50 text-amber-700; }
   .badge-low    { @apply bg-brand-50 text-brand-600; }
 }
+
+/* ============================================
+   PRINT STYLES
+   Sakriva sve osim #printable-area pri printanju.
+   Radi bez obzira na sidebar, layout, druge stranice.
+   ============================================ */
+@media print {
+  @page {
+    margin: 1.5cm;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  #printable-area,
+  #printable-area * {
+    visibility: visible;
+  }
+
+  #printable-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Elementi koji se nikad ne printaju čak ni unutar printable-area */
+  .print-hidden {
+    display: none !important;
+  }
+
+  /* Samo za print vidljivi elementi (letterhead) */
+  .print-only {
+    display: block !important;
+  }
+
+  /* Kartice bez sjenki, čistije za papir */
+  #printable-area .card {
+    @apply border-gray-300;
+    box-shadow: none !important;
+    break-inside: avoid;
+  }
+
+  /* Timeline stavke se ne lome preko stranica */
+  #printable-area .timeline-item {
+    break-inside: avoid;
+  }
+
+  #printable-area .badge {
+    border: 1px solid currentColor;
+  }
+}
+
+.print-only {
+  display: none;
+}
