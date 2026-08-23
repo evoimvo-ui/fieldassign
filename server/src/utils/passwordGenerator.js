@@ -11,5 +11,6 @@ export function generateTemporaryPassword() {
   const word1 = words[Math.floor(Math.random() * words.length)];
   const word2 = words[Math.floor(Math.random() * words.length)];
   const number = Math.floor(100 + Math.random() * 900); // 3-digit number
-  return `${word1}-${word2}-${number}`;
+  const capitalized = word1.charAt(0).toUpperCase() + word1.slice(1);
+  return `${capitalized}-${word2}-${number}`;
 }

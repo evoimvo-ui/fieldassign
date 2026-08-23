@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   organization: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization', required: true },
   name: { type: String, required: true, trim: true },
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },
-  password: { type: String, required: true, minlength: 6 },
+  password: { type: String, required: true, minlength: 8 },
   role: { type: String, enum: ['admin', 'worker'], default: 'worker' },
   active: { type: Boolean, default: true },
   lastSeen: { type: Date, default: null },

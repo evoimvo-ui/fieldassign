@@ -13,14 +13,26 @@ export default function ChangePasswordPage() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
-    
+
     if (form.newPassword !== form.confirmPassword) {
       setError('Nova lozinka i potvrda se ne podudaraju')
       return
     }
 
-    if (form.newPassword.length < 6) {
-      setError('Nova lozinka mora imati najmanje 6 karaktera')
+    if (form.newPassword.length < 8) {
+      setError('Nova lozinka mora imati najmanje 8 karaktera')
+      return
+    }
+    if (!/[A-Z]/.test(form.newPassword)) {
+      setError('Nova lozinka mora sadržavati barem jedno veliko slovo')
+      return
+    }
+    if (!/[a-z]/.test(form.newPassword)) {
+      setError('Nova lozinka mora sadržavati barem jedno malo slovo')
+      return
+    }
+    if (!/[0-9]/.test(form.newPassword)) {
+      setError('Nova lozinka mora sadržavati barem jedan broj')
       return
     }
 

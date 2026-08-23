@@ -17,6 +17,24 @@ export default function RegisterPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+
+    if (form.password.length < 8) {
+      setError(t('auth.passwordMinLength'));
+      return;
+    }
+    if (!/[A-Z]/.test(form.password)) {
+      setError(t('auth.passwordUppercase'));
+      return;
+    }
+    if (!/[a-z]/.test(form.password)) {
+      setError(t('auth.passwordLowercase'));
+      return;
+    }
+    if (!/[0-9]/.test(form.password)) {
+      setError(t('auth.passwordNumber'));
+      return;
+    }
+
     setLoading(true);
     try {
       await register(form.orgName, form.name, form.email, form.password);
@@ -62,7 +80,7 @@ export default function RegisterPage() {
             </div>
             <div>
               <label className="label">{t('auth.password')}</label>
-              <input name="password" type="password" className="input" value={form.password} onChange={handleChange} placeholder={t('auth.passwordMin')} minLength={6} required />
+              <input name="password" type="password" className="input" value={form.password} onChange={handleChange} placeholder={t('auth.passwordMin')} minLength={8} required />
             </div>
             <button type="submit" disabled={loading} className="btn btn-primary w-full justify-center py-2.5">
               {loading ? t('auth.registering') : t('auth.registerBtn')}
