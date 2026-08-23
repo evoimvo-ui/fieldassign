@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import Organization from '../models/Organization.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { generateTemporaryPassword } from '../utils/passwordGenerator.js';
+import { sendWorkerCredentialsEmail } from '../services/emailService.js';
 
 const router = express.Router();
 
@@ -50,6 +51,13 @@ router.post('/', requireAdmin, async (req, res) => {
       ...user.toObject(),
       generatedPassword: tempPassword
     });
+
+    sendWorkerCredentialsEmail(
+      user.toObject(),
+      tempPassword,
+      org ? org.toObject() : null,
+      req.language || 'bs'
+    ).catch(() => {});
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Interna greška servera' });

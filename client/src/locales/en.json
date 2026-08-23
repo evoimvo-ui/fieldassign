@@ -158,8 +158,31 @@
     "workerCreated": "Worker created successfully!",
     "tempPassword": "Temporary password for the worker:",
     "tempPasswordNote": "The worker will be asked to change this password on first login.",
+    "credentialsSent": "Login credentials sent to the worker's email.",
     "loadError": "Error loading workers, please try again",
     "createError": "Error creating user"
+  },
+  "emails": {
+    "workerCredentialsSubject_en": "Your FieldAssign account is ready",
+    "workerCredentialsSubject_bs": "Vaš FieldAssign nalog je spreman",
+    "workerCredentialsGreeting_en": "Hi",
+    "workerCredentialsGreeting_bs": "Pozdrav",
+    "workerCredentialsIntro_en": "Your account has been created. Use the credentials below to sign in:",
+    "workerCredentialsIntro_bs": "Vaš nalog je kreiran. Koristite sljedeće podatke za prijavu:",
+    "workerCredentialsEmailLabel_en": "Email",
+    "workerCredentialsEmailLabel_bs": "Email",
+    "workerCredentialsPasswordLabel_en": "Temporary password",
+    "workerCredentialsPasswordLabel_bs": "Privremena lozinka",
+    "workerCredentialsNote_en": "For security reasons, you will be required to change this temporary password immediately after your first successful login.",
+    "workerCredentialsNote_bs": "Iz sigurnosnih razloga, bićete zamoljeni da odmah nakon prve uspješne prijave promijenite ovu privremenu lozinku.",
+    "workerCredentialsCta_en": "Sign in to FieldAssign",
+    "workerCredentialsCta_bs": "Prijavite se na FieldAssign",
+    "taskAssignedSubject_en": "New task assigned",
+    "taskAssignedSubject_bs": "Dodijeljen vam je novi zadatak",
+    "taskCompletedSubject_en": "Task completed",
+    "taskCompletedSubject_bs": "Zadatak završen",
+    "taskRejectedSubject_en": "Task rejected",
+    "taskRejectedSubject_bs": "Zadatak odbijen"
   },
   "layout": {
     "tagline": "Task · Proof · Report"
