@@ -30,12 +30,7 @@
     "registering": "Registracija...",
     "email": "Email",
     "password": "Lozinka",
-    "passwordMin": "Min. 8 znakova (A-Z, a-z, 0-9)",
-    "passwordMinLength": "Lozinka mora imati najmanje 8 karaktera",
-    "passwordUppercase": "Lozinka mora sadržavati barem jedno veliko slovo",
-    "passwordLowercase": "Lozinka mora sadržavati barem jedno malo slovo",
-    "passwordNumber": "Lozinka mora sadržavati barem jedan broj",
-    "passwordMatch": "Nova lozinka i potvrda se ne podudaraju",
+    "passwordMin": "Min. 6 znakova",
     "orgName": "Naziv firme / organizacije",
     "orgPlaceholder": "npr. Zaštita Plus d.o.o.",
     "fullName": "Vaše ime i prezime",
@@ -108,11 +103,7 @@
     "total": "aktivnosti ukupno",
     "gpsRecorded": "GPS zabilježen",
     "evidence": "dokaz(a)",
-    "loadingError": "Došlo je do greške pri učitavanju aktivnosti, pokušajte ponovo",
-    "statusAccepted": "Zadatak prihvaćen",
-    "statusInProgress": "Početo izvršenje — dolazak na lokaciju",
-    "statusCompleted": "Zadatak završen",
-    "statusRejected": "Zadatak odbijen"
+    "loadingError": "Došlo je do greške pri učitavanju aktivnosti, pokušajte ponovo"
   },
   "reports": {
     "title": "Izvještaji",
@@ -128,15 +119,11 @@
     "accepted": "Prihvaćen",
     "arrival": "Dolazak",
     "finished": "Završeno",
-    "rejected": "Odbijen",
     "activityTimeline": "Timeline aktivnosti",
     "noActivities": "Nema aktivnosti",
     "generated": "Izvještaj generisan",
     "gps": "GPS",
-    "evidence": "dokaz(a)",
-    "shareReport": "Podijeli",
-"shareText": "Izvještaj: {{title}}",
-"shareNotSupported": "Dijeljenje nije podržano na ovom uređaju/browseru — PDF je preuzet, možete ga ručno prikačiti u WhatsApp/Viber."
+    "evidence": "dokaz(a)"
   },
   "admin": {
     "title": "Radnici",
@@ -166,31 +153,8 @@
     "workerCreated": "Radnik je uspješno kreiran!",
     "tempPassword": "Privremena lozinka za radnika je:",
     "tempPasswordNote": "Radnik će biti tražen da promijeni ovu lozinku pri prvom prijavljivanju.",
-    "credentialsSent": "Podaci za prijavu poslani su na email radnika.",
     "loadError": "Došlo je do greške pri učitavanju radnika, pokušajte ponovo",
     "createError": "Greška pri kreiranju korisnika"
-  },
-  "emails": {
-    "workerCredentialsSubject_en": "Your FieldAssign account is ready",
-    "workerCredentialsSubject_bs": "Vaš FieldAssign nalog je spreman",
-    "workerCredentialsGreeting_en": "Hi",
-    "workerCredentialsGreeting_bs": "Pozdrav",
-    "workerCredentialsIntro_en": "Your account has been created. Use the credentials below to sign in:",
-    "workerCredentialsIntro_bs": "Vaš nalog je kreiran. Koristite sljedeće podatke za prijavu:",
-    "workerCredentialsEmailLabel_en": "Email",
-    "workerCredentialsEmailLabel_bs": "Email",
-    "workerCredentialsPasswordLabel_en": "Temporary password",
-    "workerCredentialsPasswordLabel_bs": "Privremena lozinka",
-    "workerCredentialsNote_en": "For security reasons, you will be required to change this temporary password immediately after your first successful login.",
-    "workerCredentialsNote_bs": "Iz sigurnosnih razloga, bićete zamoljeni da odmah nakon prve uspješne prijave promijenite ovu privremenu lozinku.",
-    "workerCredentialsCta_en": "Sign in to FieldAssign",
-    "workerCredentialsCta_bs": "Prijavite se na FieldAssign",
-    "taskAssignedSubject_en": "New task assigned",
-    "taskAssignedSubject_bs": "Dodijeljen vam je novi zadatak",
-    "taskCompletedSubject_en": "Task completed",
-    "taskCompletedSubject_bs": "Zadatak završen",
-    "taskRejectedSubject_en": "Task rejected",
-    "taskRejectedSubject_bs": "Zadatak odbijen"
   },
   "layout": {
     "tagline": "Task · Proof · Report"
