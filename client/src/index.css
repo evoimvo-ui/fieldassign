@@ -33,6 +33,10 @@
     @apply text-red-600 border-red-200 hover:bg-red-50;
   }
 
+  .btn-sm {
+    @apply px-2.5 py-1 text-xs;
+  }
+
   .input {
     @apply w-full px-3 py-2 text-sm border border-gray-200 rounded-lg 
            bg-white text-gray-900 placeholder-gray-400
@@ -61,6 +65,10 @@
   .badge-high   { @apply bg-red-50 text-red-600; }
   .badge-medium { @apply bg-amber-50 text-amber-700; }
   .badge-low    { @apply bg-brand-50 text-brand-600; }
+
+  .badge-template { @apply bg-purple-50 text-purple-700; }
+  .badge-active   { @apply bg-green-50 text-green-700; }
+  .badge-paused   { @apply bg-gray-100 text-gray-500; }
 }
 
 /* ============================================

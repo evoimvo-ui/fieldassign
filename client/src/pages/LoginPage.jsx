@@ -35,6 +35,12 @@ export default function LoginPage() {
         </div>
 
         <div className="text-center mb-8">
+          <img
+            src="/FAicon-512.png"
+            alt="FieldAssign"
+            className="w-20 h-20 mx-auto mb-4 rounded-2xl object-contain shadow-sm"
+            draggable={false}
+          />
           <h1 className="text-2xl font-semibold text-gray-900">FieldAssign</h1>
           <p className="text-sm text-gray-500 mt-1">{t('layout.tagline')}</p>
         </div>

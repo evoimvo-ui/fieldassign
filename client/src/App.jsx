@@ -10,6 +10,7 @@ import TasksPage from './pages/TasksPage.jsx';
 import ActivitiesPage from './pages/ActivitiesPage.jsx';
 import ReportsPage from './pages/ReportsPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
+import TemplatesPage from './pages/TemplatesPage.jsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.jsx';
 
 function ProtectedRoute({ children, requirePasswordChange = false }) {
@@ -66,6 +67,7 @@ export default function App() {
           <Route path="tasks" element={<TasksPage />} />
           <Route path="activities" element={<ActivitiesPage />} />
           <Route path="reports" element={<ReportsPage />} />
+          <Route path="templates" element={<TemplatesPage />} />
           <Route path="admin" element={<AdminPage />} />
         </Route>
 

@@ -5,12 +5,16 @@ import User from '../models/User.js';
 import Organization from '../models/Organization.js';
 import { requireAdmin } from '../middleware/auth.js';
 import { sendTaskAssignedEmail, sendTaskCompletedEmail, sendTaskRejectedEmail } from '../services/emailService.js';
+import { generateMissingTasks } from '../services/templateService.js';
 
 const router = express.Router();
 
 // GET /api/tasks — lista zadataka (admin vidi sve, worker samo svoje)
 router.get('/', async (req, res) => {
   try {
+    try {
+      await generateMissingTasks(req.organizationId);
+    } catch (_) { }
     const { status, date } = req.query;
     const filter = { organization: req.organizationId };
 

@@ -9,6 +9,7 @@ import activityRoutes from './routes/activities.js';
 import reportRoutes from './routes/reports.js';
 import userRoutes from './routes/users.js';
 import webhookRoutes from './routes/webhooks.js';
+import templateRoutes from './routes/templates.js';
 import { authenticate } from './middleware/auth.js';
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/api/tasks', authenticate, taskRoutes);
 app.use('/api/activities', authenticate, activityRoutes);
 app.use('/api/reports', authenticate, reportRoutes);
 app.use('/api/users', authenticate, userRoutes);
+app.use('/api/templates', authenticate, templateRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));

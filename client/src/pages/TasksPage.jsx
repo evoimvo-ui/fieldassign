@@ -138,6 +138,7 @@ export default function TasksPage() {
                 <div className="flex flex-col items-end gap-1">
                   <span className={`badge badge-${task.status}`}>{t(`status.${task.status}`)}</span>
                   <span className={`badge badge-${task.priority}`}>{t(`priority.${task.priority}`)}</span>
+                  {task.sourceTemplate && <span className="badge badge-template">{t('tasks.fromTemplate')}</span>}
                 </div>
               </div>
             </div>

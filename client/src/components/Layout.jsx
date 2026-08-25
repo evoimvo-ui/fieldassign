@@ -13,6 +13,7 @@ export default function Layout() {
     { to: '/tasks', label: t('nav.tasks'), icon: '☑' },
     { to: '/activities', label: t('nav.activities'), icon: '◎' },
     { to: '/reports', label: t('nav.reports'), icon: '▤' },
+    { to: '/templates', label: t('nav.templates'), icon: '🔁', adminOnly: true },
     { to: '/admin', label: t('nav.workers'), icon: '👥', adminOnly: true },
   ];
 
@@ -29,8 +30,18 @@ export default function Layout() {
       <aside className="w-56 bg-white border-r border-gray-100 flex flex-col flex-shrink-0">
         {/* Logo */}
         <div className="px-4 py-4 border-b border-gray-100">
-          <div className="text-sm font-semibold text-gray-900">FieldAssign</div>
-          <div className="text-xs text-gray-400 mt-0.5">{organization?.name || t('layout.tagline')}</div>
+          <div className="flex items-center gap-2.5">
+            <img
+              src="/FAicon-512.png"
+              alt="FieldAssign"
+              className="w-8 h-8 rounded-lg object-contain flex-shrink-0"
+              draggable={false}
+            />
+            <div className="min-w-0">
+              <div className="text-sm font-semibold text-gray-900 truncate">FieldAssign</div>
+              <div className="text-xs text-gray-400 mt-0.5 truncate">{organization?.name || t('layout.tagline')}</div>
+            </div>
+          </div>
         </div>
 
         {/* Nav */}

@@ -29,10 +29,17 @@ const taskSchema = new mongoose.Schema({
 
   completedAt: { type: Date, default: null },
   scheduledDate: { type: Date, default: Date.now },
+
+  sourceTemplate: { type: mongoose.Schema.Types.ObjectId, ref: 'Template', default: null },
+
 }, { timestamps: true });
 
-// Index za brze upite po organizaciji i statusu
 taskSchema.index({ organization: 1, status: 1 });
 taskSchema.index({ assignedTo: 1, scheduledDate: 1 });
+
+taskSchema.index(
+  { sourceTemplate: 1, scheduledDate: 1 },
+  { unique: true, partialFilterExpression: { sourceTemplate: { $type: 'objectId' } } }
+);
 
 export default mongoose.model('Task', taskSchema);
