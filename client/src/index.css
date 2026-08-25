@@ -11,7 +11,7 @@
     @apply bg-gray-50 text-gray-900 antialiased;
     font-family: 'Inter', system-ui, sans-serif;
     overflow-x: hidden;
-    max-width: 100vw;
+    max-width: 100%;
   }
 
   /* Inputi, selecti, textarea — min visina za dodir (touch target) */
@@ -79,7 +79,7 @@
   /* Modal unutrašnji container: 95vw na mob, standardni max-w na većim, overflow za visoke forme */
   .modal-panel {
     @apply bg-white rounded-2xl w-full p-5 sm:p-6
-           max-w-[95vw] max-h-[90vh] overflow-y-auto;
+           max-w-[95%] max-h-[90vh] overflow-y-auto;
   }
 
   /* Responsive grid za 2-kolone forme: 1 kol na mob, 2 od sm */

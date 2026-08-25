@@ -107,7 +107,7 @@ export default function Layout() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 overflow-hidden max-w-screen">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 overflow-hidden w-full">
       {/* Mobile top bar */}
       <header className="md:hidden flex items-center gap-3 px-3 py-2 bg-white border-b border-gray-100 sticky top-0 z-40 flex-shrink-0">
         <button
