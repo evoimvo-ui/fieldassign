@@ -32,36 +32,39 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="p-6 max-w-4xl">
+    <div className="px-3 sm:px-6 py-4 sm:py-6 max-w-4xl mx-auto w-full">
       {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-xl font-semibold text-gray-900">
+      <div className="mb-5 sm:mb-6">
+        <h1 className="text-xl sm:text-2xl font-semibold text-gray-900 break-words">
           {greet()}, {user?.name?.split(' ')[0]}
         </h1>
-        <p className="text-sm text-gray-400 mt-0.5 capitalize">
+        <p className="text-sm text-gray-400 mt-0.5 capitalize break-words">
           {format(new Date(), 'EEEE, d. MMMM yyyy.', { locale: dateLocale })}
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+      {/* Stats — 1 kol na mob, 2 na sm mob/tablet, 4 na md+ */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 mb-5 sm:mb-6">
         {[
           { label: t('dashboard.totalToday'), value: tasks.length, color: 'text-gray-900' },
           { label: t('dashboard.completed'), value: completed, color: 'text-brand-600' },
           { label: t('dashboard.inProgress'), value: inprogress, color: 'text-amber-600' },
           { label: t('dashboard.pending'), value: pending, color: 'text-gray-500' },
         ].map((s) => (
-          <div key={s.label} className="card p-4">
-            <div className="text-xs text-gray-400 mb-1">{s.label}</div>
-            <div className={`text-2xl font-semibold ${s.color}`}>{s.value}</div>
+          <div key={s.label} className="card p-3 sm:p-4 min-h-[80px]">
+            <div className="text-xs text-gray-400 mb-1 break-words">{s.label}</div>
+            <div className={`text-2xl sm:text-3xl font-semibold ${s.color}`}>{s.value}</div>
           </div>
         ))}
       </div>
 
       {/* Tasks list */}
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-gray-700">{t('dashboard.todayTasks')}</h2>
-        <button onClick={() => navigate('/tasks')} className="text-xs text-brand-600 hover:text-brand-800">
+        <h2 className="text-sm font-semibold text-gray-700 break-words">{t('dashboard.todayTasks')}</h2>
+        <button
+          onClick={() => navigate('/tasks')}
+          className="text-xs text-brand-600 hover:text-brand-800 min-h-[36px] flex items-center justify-center"
+        >
           {t('dashboard.allTasks')}
         </button>
       </div>
@@ -69,8 +72,8 @@ export default function DashboardPage() {
       {loading ? (
         <div className="text-sm text-gray-400 py-8 text-center">{t('common.loading')}</div>
       ) : tasks.length === 0 ? (
-        <div className="card p-8 text-center">
-          <div className="text-gray-400 text-sm">{t('dashboard.noTasks')}</div>
+        <div className="card p-6 sm:p-8 text-center">
+          <div className="text-gray-400 text-sm break-words">{t('dashboard.noTasks')}</div>
         </div>
       ) : (
         <div className="space-y-2">
@@ -78,15 +81,15 @@ export default function DashboardPage() {
             <div
               key={task._id}
               onClick={() => navigate('/tasks')}
-              className="card p-4 hover:border-gray-200 cursor-pointer transition-colors"
+              className="card p-3 sm:p-4 hover:border-gray-200 cursor-pointer transition-colors"
             >
               <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-2.5">
+                <div className="flex items-start gap-2.5 min-w-0 flex-1">
                   <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${PRIORITY_COLORS[task.priority]}`} />
-                  <div>
-                    <div className="text-sm font-medium text-gray-900">{task.title}</div>
-                    <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
-                      {task.location && <span>📍 {task.location}</span>}
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-gray-900 break-words">{task.title}</div>
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-gray-400">
+                      {task.location && <span className="break-words">📍 {task.location}</span>}
                       {task.timeStart && <span>🕐 {task.timeStart}{task.timeEnd ? ` - ${task.timeEnd}` : ''}</span>}
                     </div>
                   </div>

@@ -58,65 +58,69 @@ export default function AdminPage() {
 
   if (user?.role !== 'admin') {
     return (
-      <div className="flex items-center justify-center h-full">
-        <p className="text-sm text-gray-400">{t('admin.noAccess')}</p>
+      <div className="flex items-center justify-center h-full min-h-[40vh] px-4">
+        <p className="text-sm text-gray-400 text-center">{t('admin.noAccess')}</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 max-w-2xl">
+    <div className="px-3 sm:px-6 py-4 sm:py-6 max-w-2xl mx-auto w-full">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-base font-semibold text-gray-900">{t('admin.title')}</h1>
-          <p className="text-xs text-gray-400 mt-0.5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 sm:mb-6 gap-3">
+        <div className="min-w-0">
+          <h1 className="text-base font-semibold text-gray-900 break-words">{t('admin.title')}</h1>
+          <p className="text-xs text-gray-400 mt-0.5 break-words">
             {workers.filter(w => w.active).length} {t('admin.active')} ·{' '}
             {t('admin.plan')}: <span className="font-medium capitalize">{organization?.plan || 'free'}</span> ·{' '}
             {t('admin.limit')}: {organization?.maxUsers} {t('admin.users')}
           </p>
         </div>
-        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+        <button className="btn btn-primary self-start sm:self-auto" onClick={() => setShowModal(true)}>
           {t('admin.addWorker')}
         </button>
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg mb-4">{error}</div>
+        <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg mb-4 break-words">{error}</div>
       )}
 
       {/* Workers list */}
       {loading ? (
         <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>
       ) : workers.length === 0 ? (
-        <div className="card p-8 text-center text-sm text-gray-400">{t('admin.noWorkers')}</div>
+        <div className="card p-8 text-center text-sm text-gray-400 break-words">{t('admin.noWorkers')}</div>
       ) : (
         <div className="space-y-2">
           {workers.map(w => {
             const initials = w.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
             return (
-              <div key={w._id} className="card p-4 flex items-center gap-3">
-                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 ${
-                  w.active ? 'bg-brand-50 text-brand-600' : 'bg-gray-100 text-gray-400'
-                }`}>
-                  {initials}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-gray-900">{w.name}</div>
-                  <div className="text-xs text-gray-400">{w.email} · <span className="capitalize">{w.role}</span></div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`badge ${w.active ? 'badge-completed' : 'badge-pending'}`}>
-                    {w.active ? t('admin.statusActive') : t('admin.statusInactive')}
-                  </span>
-                  {w._id !== user._id && (
-                    <button
-                      onClick={() => handleToggle(w._id)}
-                      className={`btn text-xs px-2.5 py-1.5 ${w.active ? 'btn-danger' : ''}`}
-                    >
-                      {w.active ? t('admin.deactivate') : t('admin.activate')}
-                    </button>
-                  )}
+              <div key={w._id} className="card p-3 sm:p-4">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div className="flex items-center gap-3 min-w-0 flex-1">
+                    <div className={`w-10 h-10 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 ${
+                      w.active ? 'bg-brand-50 text-brand-600' : 'bg-gray-100 text-gray-400'
+                    }`}>
+                      {initials}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-medium text-gray-900 break-words">{w.name}</div>
+                      <div className="text-xs text-gray-400 break-words">{w.email} · <span className="capitalize">{w.role}</span></div>
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 sm:justify-end">
+                    <span className={`badge ${w.active ? 'badge-completed' : 'badge-pending'}`}>
+                      {w.active ? t('admin.statusActive') : t('admin.statusInactive')}
+                    </span>
+                    {w._id !== user._id && (
+                      <button
+                        onClick={() => handleToggle(w._id)}
+                        className={`btn text-xs ${w.active ? 'btn-danger' : ''}`}
+                      >
+                        {w.active ? t('admin.deactivate') : t('admin.activate')}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             );
@@ -127,23 +131,23 @@ export default function AdminPage() {
       {/* Plan info */}
       <div className="card p-4 mt-6 bg-gray-50 border-dashed">
         <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{t('admin.subscription')}</div>
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm font-medium capitalize">{organization?.plan || 'Free'}</div>
-            <div className="text-xs text-gray-400 mt-0.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="min-w-0">
+            <div className="text-sm font-medium capitalize break-words">{organization?.plan || 'Free'}</div>
+            <div className="text-xs text-gray-400 mt-0.5 break-words">
               {organization?.planStatus === 'active' ? t('admin.subscriptionActive') : organization?.planStatus || '—'}
             </div>
           </div>
-          <button className="btn text-xs">{t('admin.manageSubscription')}</button>
+          <button className="btn text-xs self-start sm:self-auto">{t('admin.manageSubscription')}</button>
         </div>
       </div>
 
       {/* Add worker modal */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={e => e.target === e.currentTarget && setShowModal(false)}>
-          <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowModal(false)}>
+          <div className="modal-panel max-w-sm">
             <h2 className="text-base font-semibold text-gray-900 mb-5">{t('admin.newWorker')}</h2>
-            {error && <div className="bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg mb-4">{error}</div>}
+            {error && <div className="bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg mb-4 break-words">{error}</div>}
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
                 <label className="label">{t('admin.fullName')}</label>
@@ -160,7 +164,7 @@ export default function AdminPage() {
                   <option value="admin">{t('admin.roleAdmin')}</option>
                 </select>
               </div>
-              <div className="flex gap-2 justify-end pt-1">
+              <div className="flex gap-2 justify-end pt-1 flex-wrap">
                 <button type="button" className="btn" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
                 <button type="submit" disabled={submitting} className="btn btn-primary">
                   {submitting ? t('admin.adding') : t('admin.addBtn')}
@@ -173,15 +177,15 @@ export default function AdminPage() {
 
       {/* Generated Password Modal */}
       {showGeneratedPasswordModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={e => e.target === e.currentTarget && setShowGeneratedPasswordModal(false)}>
-          <div className="bg-white rounded-2xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowGeneratedPasswordModal(false)}>
+          <div className="modal-panel max-w-md">
             <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mx-auto mb-4">✅</div>
-            <h2 className="text-xl font-bold text-gray-900 text-center mb-2">{t('admin.workerCreated')}</h2>
-            <p className="text-gray-600 text-sm text-center mb-6">{t('admin.tempPassword')}</p>
-            <div className="bg-gray-100 p-4 rounded-lg text-center mb-6">
+            <h2 className="text-xl font-bold text-gray-900 text-center mb-2 break-words">{t('admin.workerCreated')}</h2>
+            <p className="text-gray-600 text-sm text-center mb-6 break-words">{t('admin.tempPassword')}</p>
+            <div className="bg-gray-100 p-4 rounded-lg text-center mb-6 break-all">
               <p className="text-2xl font-mono font-bold text-gray-900">{generatedPassword}</p>
             </div>
-            <p className="text-gray-500 text-xs text-center mb-6">{t('admin.tempPasswordNote')}</p>
+            <p className="text-gray-500 text-xs text-center mb-6 break-words">{t('admin.tempPasswordNote')}</p>
             <button className="btn btn-primary w-full justify-center" onClick={() => setShowGeneratedPasswordModal(false)}>
               {t('common.close')}
             </button>

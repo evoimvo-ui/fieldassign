@@ -89,6 +89,52 @@ export default function LoginPage() {
             {t('auth.registerLink')}
           </Link>
         </p>
+
+        <footer className="mt-10 text-center">
+          <p className="text-xs text-gray-500 tracking-wider uppercase mb-4">
+            © {new Date().getFullYear()} EI-APPS. All rights reserved.
+          </p>
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-gray-500">
+            <a
+              href="https://ei-apps.com/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="https://ei-apps.com/tos"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+            >
+              Terms of Service
+            </a>
+            <a
+              href="https://ei-apps.com/dpa"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+            >
+              DPA
+            </a>
+            <a
+              href="https://ei-apps.com/refund-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+            >
+              Refund Policy
+            </a>
+            <a
+              href="mailto:info@ei-apps.com"
+              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+            >
+              Contact
+            </a>
+          </div>
+        </footer>
       </div>
     </div>
   );

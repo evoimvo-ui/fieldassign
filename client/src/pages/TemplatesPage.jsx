@@ -184,12 +184,12 @@ export default function TemplatesPage() {
   const isMonthly = form.recurrence.type === 'monthly';
 
   return (
-    <div className="h-full overflow-y-auto p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-base font-semibold text-gray-900">{t('templates.title')}</h1>
+    <div className="h-full overflow-y-auto px-3 sm:px-6 py-4 sm:py-6">
+      <div className="max-w-4xl mx-auto w-full">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 sm:mb-6 gap-3">
+          <h1 className="text-base font-semibold text-gray-900 break-words">{t('templates.title')}</h1>
           {user?.role === 'admin' && (
-            <button className="btn btn-primary" onClick={openCreate}>
+            <button className="btn btn-primary self-start sm:self-auto" onClick={openCreate}>
               {t('templates.newTemplate')}
             </button>
           )}
@@ -295,7 +295,7 @@ export default function TemplatesPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="label">{t('templates.priority')}</label>
                     <select
@@ -333,7 +333,7 @@ export default function TemplatesPage() {
                   />
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="label">{t('templates.timeStart')}</label>
                     <input
@@ -398,7 +398,7 @@ export default function TemplatesPage() {
                             key={d}
                             type="button"
                             onClick={() => toggleWeekday(d)}
-                            className={`px-3 py-1.5 rounded-lg text-xs border transition-colors ${
+                            className={`min-h-[44px] min-w-[44px] flex items-center justify-center px-3 py-2 sm:py-1.5 rounded-lg text-xs border transition-colors ${
                               selected
                                 ? 'bg-brand-400 text-white border-brand-600'
                                 : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
@@ -432,7 +432,7 @@ export default function TemplatesPage() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="label">{t('templates.startDate')}</label>
                     <input
