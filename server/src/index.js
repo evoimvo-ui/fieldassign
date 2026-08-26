@@ -10,7 +10,7 @@ import reportRoutes from './routes/reports.js';
 import userRoutes from './routes/users.js';
 import webhookRoutes from './routes/webhooks.js';
 import templateRoutes from './routes/templates.js';
-import { authenticate } from './middleware/auth.js';
+import { authenticate, requireEmailVerified } from './middleware/auth.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -28,11 +28,11 @@ app.use(cors({
 app.use('/api/auth', authRoutes);
 
 // Protected routes
-app.use('/api/tasks', authenticate, taskRoutes);
-app.use('/api/activities', authenticate, activityRoutes);
-app.use('/api/reports', authenticate, reportRoutes);
-app.use('/api/users', authenticate, userRoutes);
-app.use('/api/templates', authenticate, templateRoutes);
+app.use('/api/tasks', authenticate, requireEmailVerified, taskRoutes);
+app.use('/api/activities', authenticate, requireEmailVerified, activityRoutes);
+app.use('/api/reports', authenticate, requireEmailVerified, reportRoutes);
+app.use('/api/users', authenticate, requireEmailVerified, userRoutes);
+app.use('/api/templates', authenticate, requireEmailVerified, templateRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));

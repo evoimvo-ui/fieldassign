@@ -12,6 +12,8 @@ import ReportsPage from './pages/ReportsPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
 import TemplatesPage from './pages/TemplatesPage.jsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.jsx';
+import VerifyPendingPage from './pages/VerifyPendingPage.jsx';
+import VerifyEmailPage from './pages/VerifyEmailPage.jsx';
 
 function ProtectedRoute({ children, requirePasswordChange = false }) {
   const { token, loading, user } = useAuthStore();
@@ -29,7 +31,27 @@ function ProtectedRoute({ children, requirePasswordChange = false }) {
   if (!user?.mustChangePassword && location.pathname === '/change-password') {
     return <Navigate to="/" replace />;
   }
+
+  // If user exists but email not verified and we're not already on verify-pending
+  if (user && user.emailVerified === false && location.pathname !== '/verify-pending') {
+    return <Navigate to="/verify-pending" replace />;
+  }
   
+  return children;
+}
+
+function VerifyPendingRoute({ children }) {
+  const { token, loading, user } = useAuthStore();
+  const location = useLocation();
+
+  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400">Učitavanje...</div>;
+  if (!token) return <Navigate to="/login" state={{ from: location.pathname + location.search }} replace />;
+  
+  // Ako je već verifikovan, ne smije biti na ovoj stranici
+  if (user && user.emailVerified === true) {
+    return <Navigate to="/" replace />;
+  }
+
   return children;
 }
 
@@ -50,18 +72,26 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public */}
+        {/* Public — dostupne bez prijave */}
         <Route path="/login" element={<PublicRoute><LoginPage /></PublicRoute>} />
         <Route path="/register" element={<PublicRoute><RegisterPage /></PublicRoute>} />
+        <Route path="/verify-email" element={<VerifyEmailPage />} />
 
-        {/* Change Password Route (protected but special) */}
+        {/* Verify Pending — samo za neverifikovane korisnike (sa tokenom) */}
+        <Route path="/verify-pending" element={
+          <VerifyPendingRoute>
+            <VerifyPendingPage />
+          </VerifyPendingRoute>
+        } />
+
+        {/* Change Password Route (protected but special — ne zahtijeva emailVerified da bude true radi workera sa tempPass) */}
         <Route path="/change-password" element={
           <ProtectedRoute requirePasswordChange={true}>
             <ChangePasswordPage />
           </ProtectedRoute>
         } />
 
-        {/* Protected */}
+        {/* Protected — zahtijeva prijavu + verifikovan email */}
         <Route path="/" element={<ProtectedRoute><Layout /></ProtectedRoute>}>
           <Route index element={<DashboardPage />} />
           <Route path="tasks" element={<TasksPage />} />

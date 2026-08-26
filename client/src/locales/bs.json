@@ -243,5 +243,23 @@
   },
   "layout": {
     "tagline": "Task · Proof · Report"
+  },
+  "verifyPending": {
+    "title": "Potvrdite svoj email",
+    "description": "Poslali smo link za potvrdu na {{email}}. Kliknite na njega da nastavite koristiti FieldAssign.",
+    "resend": "Pošalji ponovo",
+    "resendSent": "Poslano!",
+    "resendCooldown": "Pričekajte {{seconds}}s",
+    "wrongEmail": "Pogrešan email? Promijeni ga",
+    "newEmailPlaceholder": "nova@email.com",
+    "updateEmailBtn": "Sačuvaj i pošalji ponovo",
+    "logout": "Odjava"
+  },
+  "verifyEmail": {
+    "verifying": "Provjera u toku...",
+    "success": "Email uspješno potvrđen!",
+    "error": "Link nije važeći ili je istekao",
+    "goToApp": "Idi na aplikaciju",
+    "goToLogin": "Idi na prijavu"
   }
 }

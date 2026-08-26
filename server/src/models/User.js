@@ -10,6 +10,10 @@ const userSchema = new mongoose.Schema({
   active: { type: Boolean, default: true },
   lastSeen: { type: Date, default: null },
   mustChangePassword: { type: Boolean, default: false },
+  emailVerified: { type: Boolean, default: false },
+  verificationTokenHash: { type: String, default: null },
+  verificationTokenExpires: { type: Date, default: null },
+  lastVerificationSentAt: { type: Date, default: null },
 }, { timestamps: true });
 
 // Index za upite po organizaciji i statusu aktivnosti

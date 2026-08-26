@@ -33,6 +33,17 @@ export const requireAdmin = (req, res, next) => {
   next();
 };
 
+// Korisnik mora imati potvrđen email
+export const requireEmailVerified = (req, res, next) => {
+  if (!req.user.emailVerified) {
+    return res.status(403).json({
+      message: 'Email adresa nije potvrđena',
+      code: 'EMAIL_NOT_VERIFIED'
+    });
+  }
+  next();
+};
+
 // Provjeri da li je pretplata aktivna
 export const requireActiveSubscription = async (req, res, next) => {
   try {

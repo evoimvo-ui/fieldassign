@@ -305,3 +305,68 @@ export const sendWorkerCredentialsEmail = async (worker, tempPassword, organizat
     console.error('Greška pri slanju emaila (worker credentials):', error.message);
   }
 };
+
+// Pošalji verifikacioni email za novu registraciju
+export const sendVerificationEmail = async (user, token) => {
+  try {
+    const transporter = createTransporter();
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const verifyUrl = `${frontendUrl}/verify-email?token=${token}`;
+
+    const subject = 'Potvrdite svoj email — FieldAssign';
+    const heading = 'Potvrdite svoju email adresu';
+    const greeting = 'Pozdrav';
+    const intro = 'Hvala vam što ste se registrovali na FieldAssign. Kliknite na dugme ispod da potvrdite svoju email adresu i aktivirate nalog.';
+    const note = 'Ovaj link vrijedi 24 sata. Ako niste kreirali nalog, jednostavno zanemarite ovaj email.';
+    const ctaText = 'Potvrdi email';
+
+    const html = `
+      <!DOCTYPE html>
+      <html lang="bs">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${subject}</title>
+        <style>
+          body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; background-color: #f0f2f5; }
+          .email-container { max-width: 600px; margin: 0 auto; padding: 24px; }
+          .header { background-color: #1D9E75; color: white; padding: 20px 24px; border-radius: 8px 8px 0 0; text-align: center; }
+          .header h1 { margin: 0; font-size: 20px; font-weight: 600; }
+          .content { background-color: white; padding: 32px 24px; border-radius: 0 0 8px 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+          .heading { color: #333; font-size: 22px; margin: 0 0 16px 0; }
+          .text { color: #555; font-size: 16px; line-height: 1.6; margin: 0 0 24px 0; }
+          .cta-button { display: inline-block; background-color: #1D9E75; color: white; padding: 12px 28px; text-decoration: none; border-radius: 8px; font-weight: 500; font-size: 16px; }
+          .footer { margin-top: 32px; padding-top: 24px; border-top: 1px solid #eee; text-align: center; color: #999; font-size: 14px; }
+        </style>
+      </head>
+      <body>
+        <div class="email-container">
+          <div class="header"><h1>FieldAssign</h1></div>
+          <div class="content">
+            <h2 class="heading">${greeting}, ${user.name.split(' ')[0]}! 👋</h2>
+            <p class="text">${intro}</p>
+            <div style="text-align: center; margin: 28px 0;">
+              <a href="${verifyUrl}" class="cta-button">${ctaText}</a>
+            </div>
+            <p style="color: #888; font-size: 14px; line-height: 1.6; margin: 0;">${note}</p>
+          </div>
+          <div class="footer"><p>FieldAssign — Task · Proof · Report</p></div>
+        </div>
+      </body>
+      </html>
+    `;
+
+    const mailOptions = {
+      from: `${process.env.BREVO_FROM_NAME || 'FieldAssign'} <${process.env.BREVO_FROM_EMAIL}>`,
+      to: user.email,
+      subject,
+      html,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`Email poslan: Verification -> ${user.email}`);
+  } catch (error) {
+    console.error('Greška pri slanju emaila (verification):', error.message);
+    throw error;
+  }
+};

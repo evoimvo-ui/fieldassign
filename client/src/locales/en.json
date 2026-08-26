@@ -243,5 +243,23 @@
   },
   "layout": {
     "tagline": "Task · Proof · Report"
+  },
+  "verifyPending": {
+    "title": "Verify your email",
+    "description": "We sent a verification link to {{email}}. Click it to continue using FieldAssign.",
+    "resend": "Resend",
+    "resendSent": "Sent!",
+    "resendCooldown": "Wait {{seconds}}s",
+    "wrongEmail": "Wrong email? Change it",
+    "newEmailPlaceholder": "new@email.com",
+    "updateEmailBtn": "Save and resend",
+    "logout": "Logout"
+  },
+  "verifyEmail": {
+    "verifying": "Verifying...",
+    "success": "Email verified successfully!",
+    "error": "Link is invalid or has expired",
+    "goToApp": "Go to app",
+    "goToLogin": "Go to login"
   }
 }

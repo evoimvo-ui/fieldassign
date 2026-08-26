@@ -44,6 +44,27 @@ const useAuthStore = create((set) => ({
     }));
   },
 
+  resendVerification: async () => {
+    const { data } = await api.post('/auth/resend-verification');
+    return data;
+  },
+
+  updateEmail: async (newEmail) => {
+    const { data } = await api.post('/auth/update-email', { newEmail });
+    if (data.user) {
+      set((state) => ({
+        user: { ...state.user, email: data.user.email }
+      }));
+    }
+    return data;
+  },
+
+  refetchUser: async () => {
+    const { data } = await api.get('/auth/me');
+    set({ user: data.user, organization: data.organization });
+    return data;
+  },
+
   logout: () => {
     localStorage.removeItem('fo_token');
     set({ token: null, user: null, organization: null });

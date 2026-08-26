@@ -44,7 +44,8 @@ router.post('/', requireAdmin, async (req, res) => {
       email, 
       password: tempPassword,
       role: role || 'worker',
-      mustChangePassword: true
+      mustChangePassword: true,
+      emailVerified: true
     });
 
     res.status(201).json({
