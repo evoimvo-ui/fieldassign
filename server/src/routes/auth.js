@@ -201,7 +201,9 @@ router.post('/resend-verification', authenticate, async (req, res) => {
     user.lastVerificationSentAt = new Date();
     await user.save({ validateBeforeSave: false });
 
-    await sendVerificationEmail(user, token);
+    sendVerificationEmail(user, token).catch((err) => {
+      console.error('Neuspiješno slanje verifikacionog emaila (resend):', err.message);
+    });
 
     res.json({ message: 'Verifikacioni email ponovno poslan' });
   } catch (err) {
@@ -247,7 +249,9 @@ router.post('/update-email', authenticate, async (req, res) => {
     await user.save({ validateBeforeSave: false });
 
     // Pošalji verifikacioni email na novu adresu
-    await sendVerificationEmail(user, token);
+    sendVerificationEmail(user, token).catch((err) => {
+      console.error('Neuspiješno slanje verifikacionog emaila (update-email):', err.message);
+    });
 
     const safeUser = user.toObject();
     delete safeUser.password;
