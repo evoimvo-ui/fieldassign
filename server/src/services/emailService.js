@@ -1,19 +1,5 @@
-import nodemailer from 'nodemailer';
+import sendMail from './mailer.js';
 
-// Kreiraj transporter za Brevo SMTP
-const createTransporter = () => {
-  return nodemailer.createTransport({
-    host: process.env.BREVO_SMTP_HOST,
-    port: parseInt(process.env.BREVO_SMTP_PORT || '587'),
-    secure: false, // true za 465, false za 587
-    auth: {
-      user: process.env.BREVO_SMTP_USER,
-      pass: process.env.BREVO_SMTP_PASS,
-    },
-  });
-};
-
-// Helper za formatiranje datuma
 const formatDate = (date) => {
   if (!date) return '';
   const d = new Date(date);
@@ -24,7 +10,6 @@ const formatDate = (date) => {
   });
 };
 
-// HTML template za email
 const createEmailTemplate = (options) => {
   const { organizationName, subject, heading, content, task, ctaText, ctaUrl } = options;
 
@@ -129,10 +114,8 @@ const createEmailTemplate = (options) => {
   `;
 };
 
-// Pošalji email kada je zadatak dodijeljen workeru
 export const sendTaskAssignedEmail = async (worker, task, organization) => {
   try {
-    const transporter = createTransporter();
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const taskUrl = `${frontendUrl}/tasks/${task._id}`;
 
@@ -151,18 +134,15 @@ export const sendTaskAssignedEmail = async (worker, task, organization) => {
       }),
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendMail(mailOptions);
     console.log(`Email poslan: Task assigned to ${worker.email}`);
   } catch (error) {
     console.error('Greška pri slanju emaila (task assigned):', error.message);
-    // Ne bacamo grešku jer ne želimo blokirati glavni flow
   }
 };
 
-// Pošalji email kada je zadatak završen
 export const sendTaskCompletedEmail = async (admin, worker, task) => {
   try {
-    const transporter = createTransporter();
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const taskUrl = `${frontendUrl}/tasks/${task._id}`;
 
@@ -181,17 +161,15 @@ export const sendTaskCompletedEmail = async (admin, worker, task) => {
       }),
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendMail(mailOptions);
     console.log(`Email poslan: Task completed to ${admin.email}`);
   } catch (error) {
     console.error('Greška pri slanju emaila (task completed):', error.message);
   }
 };
 
-// Pošalji email kada je zadatak odbijen
 export const sendTaskRejectedEmail = async (admin, worker, task, reason) => {
   try {
-    const transporter = createTransporter();
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const taskUrl = `${frontendUrl}/tasks/${task._id}`;
 
@@ -210,17 +188,15 @@ export const sendTaskRejectedEmail = async (admin, worker, task, reason) => {
       }),
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendMail(mailOptions);
     console.log(`Email poslan: Task rejected to ${admin.email}`);
   } catch (error) {
     console.error('Greška pri slanju emaila (task rejected):', error.message);
   }
 };
 
-// Pošalji email radniku sa podacima za prijavu (privremena lozinka)
 export const sendWorkerCredentialsEmail = async (worker, tempPassword, organization, lang = 'bs') => {
   try {
-    const transporter = createTransporter();
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const loginUrl = `${frontendUrl}/login`;
 
@@ -299,17 +275,15 @@ export const sendWorkerCredentialsEmail = async (worker, tempPassword, organizat
       html,
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendMail(mailOptions);
     console.log(`Email poslan: Worker credentials -> ${worker.email}`);
   } catch (error) {
     console.error('Greška pri slanju emaila (worker credentials):', error.message);
   }
 };
 
-// Pošalji verifikacioni email za novu registraciju
 export const sendVerificationEmail = async (user, token) => {
   try {
-    const transporter = createTransporter();
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
     const verifyUrl = `${frontendUrl}/verify-email?token=${token}`;
 
@@ -363,7 +337,7 @@ export const sendVerificationEmail = async (user, token) => {
       html,
     };
 
-    await transporter.sendMail(mailOptions);
+    await sendMail(mailOptions);
     console.log(`Email poslan: Verification -> ${user.email}`);
   } catch (error) {
     console.error('Greška pri slanju emaila (verification):', error.message);
