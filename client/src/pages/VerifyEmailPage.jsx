@@ -9,14 +9,14 @@ export default function VerifyEmailPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { refetchUser } = useAuthStore();
+  const { refetchUser, token, setUserVerified } = useAuthStore();
 
   const [state, setState] = useState('verifying'); // verifying | success | error
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    const token = searchParams.get('token');
-    if (!token) {
+    const verifyToken = searchParams.get('token');
+    if (!verifyToken) {
       setErrorMessage(t('verifyEmail.error'));
       setState('error');
       return;
@@ -24,11 +24,11 @@ export default function VerifyEmailPage() {
 
     const verify = async () => {
       try {
-        await api.get(`/auth/verify-email?token=${encodeURIComponent(token)}`);
+        await api.get(`/auth/verify-email?token=${encodeURIComponent(verifyToken)}`);
         try {
           await refetchUser();
         } catch (_) {
-          // Refetch ne uspije ako token nije ispravan - to je u redu
+          setUserVerified();
         }
         setState('success');
       } catch (err) {
@@ -38,10 +38,14 @@ export default function VerifyEmailPage() {
     };
 
     verify();
-  }, [searchParams, refetchUser, t]);
+  }, [searchParams, refetchUser, setUserVerified, t]);
 
   const handleGoToApp = () => {
-    navigate('/', { replace: true });
+    if (token) {
+      navigate('/', { replace: true });
+    } else {
+      navigate('/login', { replace: true });
+    }
   };
 
   const handleGoToLogin = () => {

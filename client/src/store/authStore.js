@@ -65,6 +65,12 @@ const useAuthStore = create((set) => ({
     return data;
   },
 
+  setUserVerified: () => {
+    set((state) => ({
+      user: state.user ? { ...state.user, emailVerified: true } : null
+    }));
+  },
+
   logout: () => {
     localStorage.removeItem('fo_token');
     set({ token: null, user: null, organization: null });

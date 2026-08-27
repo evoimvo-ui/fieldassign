@@ -80,4 +80,26 @@ router.patch('/:id/toggle', requireAdmin, async (req, res) => {
   }
 });
 
+// PATCH /api/users/:id/verify — ručno potvrdi email korisnika (samo admin)
+router.patch('/:id/verify', requireAdmin, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.params.id, organization: req.organizationId });
+    if (!user) return res.status(404).json({ message: 'Korisnik nije pronađen' });
+
+    if (user.emailVerified) {
+      return res.status(400).json({ message: 'Email je već potvrđen' });
+    }
+
+    user.emailVerified = true;
+    user.verificationTokenHash = null;
+    user.verificationTokenExpires = null;
+    await user.save({ validateBeforeSave: false });
+
+    res.json({ message: 'Email uspješno potvrđen', user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Interna greška servera' });
+  }
+});
+
 export default router;

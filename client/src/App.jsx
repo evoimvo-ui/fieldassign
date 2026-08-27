@@ -32,8 +32,8 @@ function ProtectedRoute({ children, requirePasswordChange = false }) {
     return <Navigate to="/" replace />;
   }
 
-  // If user exists but email not verified and we're not already on verify-pending
-  if (user && user.emailVerified === false && location.pathname !== '/verify-pending') {
+  // If user exists but email not verified and we're not already on verify-pending or verify-email page
+  if (user && user.emailVerified === false && location.pathname !== '/verify-pending' && location.pathname !== '/verify-email') {
     return <Navigate to="/verify-pending" replace />;
   }
   
