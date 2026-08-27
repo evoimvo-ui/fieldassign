@@ -2,10 +2,9 @@ import express from 'express';
 import Task from '../models/Task.js';
 import Activity from '../models/Activity.js';
 import User from '../models/User.js';
-import Organization from '../models/Organization.js';
 import { requireAdmin } from '../middleware/auth.js';
-import { sendTaskAssignedEmail, sendTaskCompletedEmail, sendTaskRejectedEmail } from '../services/emailService.js';
 import { generateMissingTasks } from '../services/templateService.js';
+import { notifyTaskAssigned, notifyAdminsStatusChange } from '../services/notifications.js';
 
 const router = express.Router();
 
@@ -82,16 +81,8 @@ router.post('/', requireAdmin, async (req, res) => {
     });
 
     await task.populate('assignedTo', 'name email');
-    const organization = await Organization.findById(req.organizationId);
 
-    // Pošalji email workeru - ne blokiraj glavni flow
-    (async () => {
-      try {
-        await sendTaskAssignedEmail(task.assignedTo, task, organization);
-      } catch (e) {
-        console.error('Greška u email slanju:', e);
-      }
-    })();
+    notifyTaskAssigned(task).catch(() => {});
 
     res.status(201).json(task);
   } catch (err) {
@@ -138,25 +129,7 @@ router.patch('/:id/status', async (req, res) => {
       gps: gps ? { ...gps, timestamp: new Date() } : undefined,
     });
 
-    // Pošalji emailove adminu - ne blokiraj glavni flow
-    (async () => {
-      try {
-        const admin = await User.findOne({
-          organization: req.organizationId,
-          role: 'admin',
-        });
-
-        if (admin) {
-          if (status === 'completed') {
-            await sendTaskCompletedEmail(admin, req.user, task);
-          } else if (status === 'rejected') {
-            await sendTaskRejectedEmail(admin, req.user, task, reason);
-          }
-        }
-      } catch (e) {
-        console.error('Greška u email slanju:', e);
-      }
-    })();
+    notifyAdminsStatusChange(task, status).catch(() => {});
 
     res.json(task);
   } catch (err) {
@@ -168,13 +141,22 @@ router.patch('/:id/status', async (req, res) => {
 // PUT /api/tasks/:id — uredi zadatak (samo admin)
 router.put('/:id', requireAdmin, async (req, res) => {
   try {
+    const oldTask = await Task.findOne({ _id: req.params.id, organization: req.organizationId });
+    if (!oldTask) return res.status(404).json({ message: 'Zadatak nije pronađen' });
+
+    const oldAssignedTo = oldTask.assignedTo?.toString();
+
     const task = await Task.findOneAndUpdate(
       { _id: req.params.id, organization: req.organizationId },
       req.body,
       { new: true, runValidators: true }
     ).populate('assignedTo', 'name email');
 
-    if (!task) return res.status(404).json({ message: 'Zadatak nije pronađen' });
+    const newAssignedTo = task.assignedTo?._id?.toString() || task.assignedTo?.toString();
+    if (newAssignedTo && newAssignedTo !== oldAssignedTo) {
+      notifyTaskAssigned(task).catch(() => {});
+    }
+
     res.json(task);
   } catch (err) {
     console.error(err);
