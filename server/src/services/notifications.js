@@ -19,8 +19,17 @@ function emailWrapper(bodyHtml) {
 
 export async function notifyTaskAssigned(task) {
   try {
-    const worker = await User.findById(task.assignedTo);
-    if (!worker?.email) return;
+    const worker = await User.findOne({
+      _id: task.assignedTo,
+      active: { $ne: false },
+    });
+    if (!worker?.email) {
+      console.log('Notify task assigned: radnik nije pronađen ili nema email', {
+        assignedTo: task.assignedTo,
+        taskId: task._id,
+      });
+      return;
+    }
 
     const html = emailWrapper(`
       <p>Zdravo ${worker.name},</p>
@@ -44,13 +53,23 @@ export async function notifyTaskAssigned(task) {
 }
 
 export async function notifyAdminsStatusChange(task, status) {
-  if (status !== 'completed' && status !== 'rejected') return;
+  if (status !== 'completed' && status !== 'rejected') {
+    console.log('Notify admins status change: status preskočen', { status, taskId: task?._id });
+    return;
+  }
 
   try {
     const admins = await User.find({
       organization: task.organization,
       role: 'admin',
-      active: true,
+      active: { $ne: false },
+    });
+    console.log('Notify admins status change: pronađeno admina', {
+      count: admins.length,
+      status,
+      taskId: task._id,
+      organization: task.organization,
+      adminEmails: admins.map(a => a.email),
     });
     if (admins.length === 0) return;
 
@@ -67,7 +86,7 @@ export async function notifyAdminsStatusChange(task, status) {
       <p><a href="${FRONTEND_URL}/tasks" style="background:#1D9E75; color:white; padding:10px 20px; border-radius:8px; text-decoration:none; display:inline-block;">Otvori u aplikaciji</a></p>
     `);
 
-    await Promise.allSettled(
+    const results = await Promise.allSettled(
       admins.map(admin =>
         sendMail({
           to: admin.email,
@@ -76,6 +95,15 @@ export async function notifyAdminsStatusChange(task, status) {
         })
       )
     );
+
+    results.forEach((r, i) => {
+      const email = admins[i]?.email;
+      if (r.status === 'fulfilled') {
+        console.log(`Notify admins status change: email poslan (${status})`, { to: email, taskId: task._id });
+      } else {
+        console.error(`Notify admins status change: NIJE POSLAN (${status})`, { to: email, taskId: task._id, error: r.reason?.message || r.reason });
+      }
+    });
   } catch (err) {
     console.error('Greška pri slanju notifikacije (status change):', err);
   }
