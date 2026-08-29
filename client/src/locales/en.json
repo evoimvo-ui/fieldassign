@@ -90,7 +90,11 @@
     "gpsRecorded": "GPS recorded",
     "loadingWorkers": "Error loading workers, please try again",
     "filterAll": "All",
-    "fromTemplate": "🔁 Recurring"
+    "fromTemplate": "🔁 Recurring",
+    "edit": "Edit",
+    "editTask": "Edit task",
+    "saveChanges": "Save changes",
+    "saving": "Saving..."
   },
   "status": {
     "pending": "Pending",

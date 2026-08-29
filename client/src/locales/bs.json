@@ -90,7 +90,11 @@
     "gpsRecorded": "GPS zabilježen",
     "loadingWorkers": "Greška pri učitavanju radnika, pokušajte ponovo",
     "filterAll": "Svi",
-    "fromTemplate": "🔁 Ponavljajući"
+    "fromTemplate": "🔁 Ponavljajući",
+    "edit": "Uredi",
+    "editTask": "Uredi zadatak",
+    "saveChanges": "Sačuvaj izmjene",
+    "saving": "Čuvanje..."
   },
   "status": {
     "pending": "Na čekanju",

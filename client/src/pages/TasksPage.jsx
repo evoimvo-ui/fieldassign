@@ -16,6 +16,10 @@ export default function TasksPage() {
   const [workersError, setWorkersError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editTask, setEditTask] = useState({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '' });
+  const [savingEdit, setSavingEdit] = useState(false);
+
   const getActivityText = (a) => {
     const map = {
       accepted: t('activities.statusAccepted'),
@@ -74,6 +78,34 @@ export default function TasksPage() {
     }
   };
 
+  const openEditModal = (task) => {
+    setEditTask({
+      title: task.title,
+      description: task.description || '',
+      location: task.location || '',
+      assignedTo: task.assignedTo?._id || task.assignedTo || '',
+      priority: task.priority,
+      timeStart: task.timeStart || '',
+      timeEnd: task.timeEnd || '',
+    });
+    setShowEditModal(true);
+  };
+
+  const handleUpdateTask = async (e) => {
+    e.preventDefault();
+    setSavingEdit(true);
+    try {
+      await api.put(`/tasks/${selectedTask._id}`, editTask);
+      setShowEditModal(false);
+      await fetchTasks();
+      await fetchTask(selectedTask._id);
+    } catch (err) {
+      alert(err.response?.data?.message || t('common.error'));
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
   const filtered = statusFilter === 'all' ? tasks : tasks.filter(t => t.status === statusFilter);
   const statusKeys = ['all', 'pending', 'accepted', 'inprogress', 'completed'];
 
@@ -91,9 +123,17 @@ export default function TasksPage() {
             </button>
             <div className="flex-1 min-w-0">
               <h2 className="text-sm font-semibold text-gray-900 mb-2 break-words">{selectedTask.title}</h2>
-              <div className="flex gap-1.5 flex-wrap">
+              <div className="flex gap-1.5 flex-wrap items-center">
                 <span className={`badge badge-${selectedTask.status}`}>{t(`status.${selectedTask.status}`)}</span>
                 <span className={`badge badge-${selectedTask.priority}`}>{t(`priority.${selectedTask.priority}`)}</span>
+                {user?.role === 'admin' && (
+                  <button
+                    className="btn text-xs min-h-[36px] min-w-[36px]"
+                    onClick={() => openEditModal(selectedTask)}
+                  >
+                    ✏️ {t('tasks.edit')}
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -342,6 +382,78 @@ export default function TasksPage() {
               <div className="flex gap-2 justify-end pt-1 flex-wrap">
                 <button type="button" className="btn" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
                 <button type="submit" className="btn btn-primary">{t('tasks.createTask')}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Task Modal */}
+      {showEditModal && selectedTask && (
+        <div
+          className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4"
+          onClick={(e) => e.target === e.currentTarget && !savingEdit && setShowEditModal(false)}
+        >
+          <div className="modal-panel max-w-md">
+            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('tasks.editTask')}</h2>
+            <form onSubmit={handleUpdateTask} className="space-y-4">
+              <div>
+                <label className="label">{t('tasks.taskName')}</label>
+                <input
+                  className="input"
+                  value={editTask.title}
+                  onChange={e => setEditTask({...editTask, title: e.target.value})}
+                  placeholder={t('tasks.taskNamePlaceholder')}
+                  required
+                  disabled={savingEdit}
+                />
+              </div>
+              <div>
+                <label className="label">{t('tasks.location')}</label>
+                <input
+                  className="input"
+                  value={editTask.location}
+                  onChange={e => setEditTask({...editTask, location: e.target.value})}
+                  placeholder={t('tasks.locationPlaceholder')}
+                  disabled={savingEdit}
+                />
+              </div>
+              <div className="form-grid-2">
+                <div>
+                  <label className="label">{t('tasks.priority')}</label>
+                  <select className="input" value={editTask.priority} onChange={e => setEditTask({...editTask, priority: e.target.value})} disabled={savingEdit}>
+                    <option value="high">{t('priority.high')}</option>
+                    <option value="medium">{t('priority.medium')}</option>
+                    <option value="low">{t('priority.low')}</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="label">{t('tasks.assignTo')}</label>
+                  <select className="input" value={editTask.assignedTo} onChange={e => setEditTask({...editTask, assignedTo: e.target.value})} required disabled={savingEdit}>
+                    <option value="">{t('tasks.assignPlaceholder')}</option>
+                    {workers.map(w => <option key={w._id} value={w._id}>{w.name}</option>)}
+                  </select>
+                </div>
+              </div>
+              <div className="form-grid-2">
+                <div>
+                  <label className="label">{t('tasks.timeStart')}</label>
+                  <input className="input" type="time" value={editTask.timeStart} onChange={e => setEditTask({...editTask, timeStart: e.target.value})} disabled={savingEdit} />
+                </div>
+                <div>
+                  <label className="label">{t('tasks.timeEnd')}</label>
+                  <input className="input" type="time" value={editTask.timeEnd} onChange={e => setEditTask({...editTask, timeEnd: e.target.value})} disabled={savingEdit} />
+                </div>
+              </div>
+              <div>
+                <label className="label">{t('tasks.description')}</label>
+                <textarea className="input min-h-[88px]" rows={3} value={editTask.description} onChange={e => setEditTask({...editTask, description: e.target.value})} placeholder={t('tasks.descriptionPlaceholder')} disabled={savingEdit} />
+              </div>
+              <div className="flex gap-2 justify-end pt-1 flex-wrap">
+                <button type="button" className="btn" onClick={() => setShowEditModal(false)} disabled={savingEdit}>{t('common.cancel')}</button>
+                <button type="submit" className="btn btn-primary" disabled={savingEdit}>
+                  {savingEdit ? t('tasks.saving') : t('tasks.saveChanges')}
+                </button>
               </div>
             </form>
           </div>
