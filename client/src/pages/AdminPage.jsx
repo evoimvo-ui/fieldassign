@@ -15,6 +15,10 @@ export default function AdminPage() {
   const [error, setError] = useState('');
   const [submitting, setSubmitting] = useState(false);
 
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [editWorker, setEditWorker] = useState(null);
+  const [savingEdit, setSavingEdit] = useState(false);
+
   const fetchWorkers = () => {
     setLoading(true);
     setError('');
@@ -53,6 +57,39 @@ export default function AdminPage() {
       setError(err.response?.data?.message || t('admin.createError'));
     } finally {
       setSubmitting(false);
+    }
+  };
+
+  const openEditModal = (worker) => {
+    setEditWorker({ id: worker._id, name: worker.name, email: worker.email, role: worker.role });
+    setShowEditModal(true);
+  };
+
+  const handleUpdateWorker = async (e) => {
+    e.preventDefault();
+    setSavingEdit(true);
+    setError('');
+    try {
+      await api.patch(`/users/${editWorker.id}`, {
+        name: editWorker.name, email: editWorker.email, role: editWorker.role,
+      });
+      setShowEditModal(false);
+      fetchWorkers();
+    } catch (err) {
+      setError(err.response?.data?.message || t('admin.editError'));
+    } finally {
+      setSavingEdit(false);
+    }
+  };
+
+  const handleResetPassword = async (worker) => {
+    if (!window.confirm(t('admin.resetPasswordConfirm', { name: worker.name }))) return;
+    try {
+      const { data } = await api.post(`/users/${worker._id}/reset-password`);
+      setGeneratedPassword(data.generatedPassword);
+      setShowGeneratedPasswordModal(true);
+    } catch (err) {
+      alert(err.response?.data?.message || t('admin.resetPasswordError'));
     }
   };
 
@@ -112,10 +149,22 @@ export default function AdminPage() {
                     <span className={`badge ${w.active ? 'badge-completed' : 'badge-pending'}`}>
                       {w.active ? t('admin.statusActive') : t('admin.statusInactive')}
                     </span>
+                    <button
+                      onClick={() => openEditModal(w)}
+                      className="btn text-xs min-h-[44px] min-w-[64px] px-3 py-2"
+                    >
+                      {t('admin.edit')}
+                    </button>
+                    <button
+                      onClick={() => handleResetPassword(w)}
+                      className="btn text-xs min-h-[44px] min-w-[64px] px-3 py-2"
+                    >
+                      {t('admin.resetPassword')}
+                    </button>
                     {w._id !== user._id && (
                       <button
                         onClick={() => handleToggle(w._id)}
-                        className={`btn text-xs ${w.active ? 'btn-danger' : ''}`}
+                        className={`btn text-xs min-h-[44px] px-3 py-2 ${w.active ? 'btn-danger' : ''}`}
                       >
                         {w.active ? t('admin.deactivate') : t('admin.activate')}
                       </button>
@@ -168,6 +217,48 @@ export default function AdminPage() {
                 <button type="button" className="btn" onClick={() => setShowModal(false)}>{t('common.cancel')}</button>
                 <button type="submit" disabled={submitting} className="btn btn-primary">
                   {submitting ? t('admin.adding') : t('admin.addBtn')}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Edit worker modal */}
+      {showEditModal && editWorker && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowEditModal(false)}>
+          <div className="modal-panel max-w-sm">
+            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('admin.editWorker')}</h2>
+            {error && <div className="bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg mb-4 break-words">{error}</div>}
+            <form onSubmit={handleUpdateWorker} className="space-y-4">
+              <div>
+                <label className="label">{t('admin.fullName')}</label>
+                <input className="input" value={editWorker.name} onChange={e => setEditWorker({...editWorker, name: e.target.value})} placeholder={t('auth.namePlaceholder')} required />
+              </div>
+              <div>
+                <label className="label">{t('admin.email')}</label>
+                <input className="input" type="email" value={editWorker.email} onChange={e => setEditWorker({...editWorker, email: e.target.value})} placeholder={t('admin.emailPlaceholder')} required />
+              </div>
+              <div>
+                <label className="label">{t('admin.role')}</label>
+                {editWorker.id === user._id ? (
+                  <>
+                    <select className="input bg-gray-50 text-gray-500 cursor-not-allowed" value={editWorker.role} disabled>
+                      <option value="admin">{t('admin.roleAdmin')}</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">{t('admin.cannotChangeOwnRole')}</p>
+                  </>
+                ) : (
+                  <select className="input" value={editWorker.role} onChange={e => setEditWorker({...editWorker, role: e.target.value})}>
+                    <option value="worker">{t('admin.roleWorker')}</option>
+                    <option value="admin">{t('admin.roleAdmin')}</option>
+                  </select>
+                )}
+              </div>
+              <div className="flex gap-2 justify-end pt-1 flex-wrap">
+                <button type="button" className="btn" onClick={() => setShowEditModal(false)}>{t('common.cancel')}</button>
+                <button type="submit" disabled={savingEdit} className="btn btn-primary">
+                  {savingEdit ? t('admin.saving') : t('admin.saveChanges')}
                 </button>
               </div>
             </form>

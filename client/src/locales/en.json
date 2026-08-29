@@ -94,7 +94,12 @@
     "edit": "Edit",
     "editTask": "Edit task",
     "saveChanges": "Save changes",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "searchPlaceholder": "Search by title, location or worker...",
+    "sortDefault": "Default order",
+    "sortPriority": "Priority (high first)",
+    "sortTime": "Start time",
+    "noSearchResults": "No results for \"{{query}}\""
   },
   "status": {
     "pending": "Pending",
@@ -221,7 +226,16 @@
     "tempPasswordNote": "The worker will be asked to change this password on first login.",
     "credentialsSent": "Login credentials sent to the worker's email.",
     "loadError": "Error loading workers, please try again",
-    "createError": "Error creating user"
+    "createError": "Error creating user",
+    "edit": "Edit",
+    "editWorker": "Edit worker",
+    "editError": "Error editing worker",
+    "saveChanges": "Save changes",
+    "saving": "Saving...",
+    "cannotChangeOwnRole": "You cannot change your own role",
+    "resetPassword": "Reset password",
+    "resetPasswordConfirm": "Reset password for {{name}}? The old password will stop working.",
+    "resetPasswordError": "Error resetting password"
   },
   "emails": {
     "workerCredentialsSubject_en": "Your FieldAssign account is ready",

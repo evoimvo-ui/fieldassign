@@ -20,6 +20,9 @@ export default function TasksPage() {
   const [editTask, setEditTask] = useState({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '' });
   const [savingEdit, setSavingEdit] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('default');
+
   const getActivityText = (a) => {
     const map = {
       accepted: t('activities.statusAccepted'),
@@ -106,7 +109,29 @@ export default function TasksPage() {
     }
   };
 
-  const filtered = statusFilter === 'all' ? tasks : tasks.filter(t => t.status === statusFilter);
+  const filtered = tasks
+    .filter(task => statusFilter === 'all' || task.status === statusFilter)
+    .filter(task => {
+      if (!searchQuery.trim()) return true;
+      const q = searchQuery.toLowerCase();
+      return (
+        task.title?.toLowerCase().includes(q) ||
+        task.location?.toLowerCase().includes(q) ||
+        task.assignedTo?.name?.toLowerCase().includes(q)
+      );
+    })
+    .sort((a, b) => {
+      if (sortBy === 'priority') {
+        const order = { high: 0, medium: 1, low: 2 };
+        return order[a.priority] - order[b.priority];
+      }
+      if (sortBy === 'time') {
+        if (!a.timeStart) return 1;
+        if (!b.timeStart) return -1;
+        return a.timeStart.localeCompare(b.timeStart);
+      }
+      return 0;
+    });
   const statusKeys = ['all', 'pending', 'accepted', 'inprogress', 'completed'];
 
   const TaskDetailPanel = () => (
@@ -248,6 +273,25 @@ export default function TasksPage() {
         <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg mb-4 break-words">{workersError}</div>
       )}
 
+      <div className="flex flex-col sm:flex-row gap-2 mb-3">
+        <input
+          type="text"
+          className="input flex-1"
+          placeholder={t('tasks.searchPlaceholder')}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+        <select
+          className="input sm:w-48"
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value)}
+        >
+          <option value="default">{t('tasks.sortDefault')}</option>
+          <option value="priority">{t('tasks.sortPriority')}</option>
+          <option value="time">{t('tasks.sortTime')}</option>
+        </select>
+      </div>
+
       <div className="flex gap-1.5 mb-4 flex-wrap">
         {statusKeys.map((s) => (
           <button
@@ -301,7 +345,11 @@ export default function TasksPage() {
         ))}
 
         {!loading && filtered.length === 0 && (
-          <div className="card p-8 text-center text-sm text-gray-400">{t('tasks.noTasks')}</div>
+          <div className="card p-8 text-center text-sm text-gray-400 break-words">
+            {searchQuery.trim()
+              ? t('tasks.noSearchResults', { query: searchQuery })
+              : t('tasks.noTasks')}
+          </div>
         )}
       </div>
     </div>

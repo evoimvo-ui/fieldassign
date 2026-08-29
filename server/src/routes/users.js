@@ -102,4 +102,48 @@ router.patch('/:id/verify', requireAdmin, async (req, res) => {
   }
 });
 
+// PATCH /api/users/:id — uredi ime/email/ulogu (samo admin)
+router.patch('/:id', requireAdmin, async (req, res) => {
+  try {
+    const { name, email, role } = req.body;
+    const target = await User.findOne({ _id: req.params.id, organization: req.organizationId });
+    if (!target) return res.status(404).json({ message: 'Radnik nije pronađen' });
+
+    const isSelf = target._id.toString() === req.user._id.toString();
+    if (isSelf && role && role !== 'admin') {
+      return res.status(400).json({ message: 'Ne možete sami sebi oduzeti admin ulogu' });
+    }
+
+    if (email && email !== target.email) {
+      const emailTaken = await User.findOne({ email, _id: { $ne: target._id } });
+      if (emailTaken) return res.status(400).json({ message: 'Email već postoji' });
+      target.email = email;
+    }
+    if (name) target.name = name;
+    if (role && !isSelf) target.role = role;
+
+    await target.save();
+    res.json(target);
+  } catch (err) {
+    res.status(500).json({ message: 'Greška pri uređivanju radnika', error: err.message });
+  }
+});
+
+// POST /api/users/:id/reset-password — admin generiše novu lozinku (samo admin)
+router.post('/:id/reset-password', requireAdmin, async (req, res) => {
+  try {
+    const target = await User.findOne({ _id: req.params.id, organization: req.organizationId });
+    if (!target) return res.status(404).json({ message: 'Radnik nije pronađen' });
+
+    const generatedPassword = generateTemporaryPassword();
+    target.password = generatedPassword;
+    target.mustChangePassword = true;
+    await target.save();
+
+    res.json({ generatedPassword });
+  } catch (err) {
+    res.status(500).json({ message: 'Greška pri resetovanju lozinke', error: err.message });
+  }
+});
+
 export default router;

@@ -94,7 +94,12 @@
     "edit": "Uredi",
     "editTask": "Uredi zadatak",
     "saveChanges": "Sačuvaj izmjene",
-    "saving": "Čuvanje..."
+    "saving": "Čuvanje...",
+    "searchPlaceholder": "Pretraži po nazivu, lokaciji ili radniku...",
+    "sortDefault": "Zadano sortiranje",
+    "sortPriority": "Prioritet (visok prvo)",
+    "sortTime": "Vrijeme početka",
+    "noSearchResults": "Nema rezultata za \"{{query}}\""
   },
   "status": {
     "pending": "Na čekanju",
@@ -221,7 +226,16 @@
     "tempPasswordNote": "Radnik će biti tražen da promijeni ovu lozinku pri prvom prijavljivanju.",
     "credentialsSent": "Podaci za prijavu poslani su na email radnika.",
     "loadError": "Došlo je do greške pri učitavanju radnika, pokušajte ponovo",
-    "createError": "Greška pri kreiranju korisnika"
+    "createError": "Greška pri kreiranju korisnika",
+    "edit": "Uredi",
+    "editWorker": "Uredi radnika",
+    "editError": "Greška pri uređivanju radnika",
+    "saveChanges": "Sačuvaj izmjene",
+    "saving": "Čuvanje...",
+    "cannotChangeOwnRole": "Ne možete promijeniti vlastitu ulogu",
+    "resetPassword": "Resetuj lozinku",
+    "resetPasswordConfirm": "Resetovati lozinku za {{name}}? Stara lozinka više neće raditi.",
+    "resetPasswordError": "Greška pri resetovanju lozinke"
   },
   "emails": {
     "workerCredentialsSubject_en": "Your FieldAssign account is ready",
