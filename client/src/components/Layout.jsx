@@ -15,8 +15,9 @@ export default function Layout() {
     { to: '/tasks', label: t('nav.tasks'), icon: '☑' },
     { to: '/activities', label: t('nav.activities'), icon: '◎' },
     { to: '/reports', label: t('nav.reports'), icon: '▤' },
-    { to: '/templates', label: t('nav.templates'), icon: '🔁', adminOnly: true },
     { to: '/admin', label: t('nav.workers'), icon: '👥', adminOnly: true },
+    { to: '/clients', label: t('nav.clients'), icon: '🏢', adminOnly: true },
+    { to: '/templates', label: t('nav.templates'), icon: '�', adminOnly: true },
   ];
 
   const handleLogout = () => {

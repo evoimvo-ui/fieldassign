@@ -10,6 +10,7 @@ import TasksPage from './pages/TasksPage.jsx';
 import ActivitiesPage from './pages/ActivitiesPage.jsx';
 import ReportsPage from './pages/ReportsPage.jsx';
 import AdminPage from './pages/AdminPage.jsx';
+import ClientsPage from './pages/ClientsPage.jsx';
 import TemplatesPage from './pages/TemplatesPage.jsx';
 import ChangePasswordPage from './pages/ChangePasswordPage.jsx';
 import VerifyPendingPage from './pages/VerifyPendingPage.jsx';
@@ -99,6 +100,7 @@ export default function App() {
           <Route path="reports" element={<ReportsPage />} />
           <Route path="templates" element={<TemplatesPage />} />
           <Route path="admin" element={<AdminPage />} />
+          <Route path="clients" element={<ClientsPage />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/login" replace />} />

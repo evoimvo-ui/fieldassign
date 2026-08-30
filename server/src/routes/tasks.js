@@ -32,6 +32,7 @@ router.get('/', async (req, res) => {
     const tasks = await Task.find(filter)
       .populate('assignedTo', 'name email')
       .populate('createdBy', 'name')
+      .populate('client', 'name location')
       .sort({ createdAt: -1 });
 
     res.json(tasks);
@@ -46,7 +47,8 @@ router.get('/:id', async (req, res) => {
   try {
     const task = await Task.findOne({ _id: req.params.id, organization: req.organizationId })
       .populate('assignedTo', 'name email')
-      .populate('createdBy', 'name');
+      .populate('createdBy', 'name')
+      .populate('client', 'name location');
 
     if (!task) return res.status(404).json({ message: 'Zadatak nije pronađen' });
 
@@ -66,7 +68,7 @@ router.get('/:id', async (req, res) => {
 // POST /api/tasks — kreiraj zadatak (samo admin)
 router.post('/', requireAdmin, async (req, res) => {
   try {
-    const { title, description, location, assignedTo, priority, timeStart, timeEnd, scheduledDate } = req.body;
+    const { title, description, location, assignedTo, priority, timeStart, timeEnd, scheduledDate, client } = req.body;
 
     if (!title || !assignedTo) {
       return res.status(400).json({ message: 'Naziv i dodijeljeni radnik su obavezni' });
@@ -76,11 +78,12 @@ router.post('/', requireAdmin, async (req, res) => {
       organization: req.organizationId,
       createdBy: req.user._id,
       title, description, location, assignedTo, priority,
-      timeStart, timeEnd,
+      timeStart, timeEnd, client,
       scheduledDate: scheduledDate || new Date(),
     });
 
     await task.populate('assignedTo', 'name email');
+    await task.populate('client', 'name location');
 
     notifyTaskAssigned(task).catch(() => {});
 
@@ -150,7 +153,7 @@ router.put('/:id', requireAdmin, async (req, res) => {
       { _id: req.params.id, organization: req.organizationId },
       req.body,
       { new: true, runValidators: true }
-    ).populate('assignedTo', 'name email');
+    ).populate('assignedTo', 'name email').populate('client', 'name location');
 
     const newAssignedTo = task.assignedTo?._id?.toString() || task.assignedTo?.toString();
     if (newAssignedTo && newAssignedTo !== oldAssignedTo) {

@@ -10,6 +10,7 @@ import reportRoutes from './routes/reports.js';
 import userRoutes from './routes/users.js';
 import webhookRoutes from './routes/webhooks.js';
 import templateRoutes from './routes/templates.js';
+import clientRoutes from './routes/clients.js';
 import { authenticate, requireEmailVerified } from './middleware/auth.js';
 
 const app = express();
@@ -33,6 +34,7 @@ app.use('/api/activities', authenticate, requireEmailVerified, activityRoutes);
 app.use('/api/reports', authenticate, requireEmailVerified, reportRoutes);
 app.use('/api/users', authenticate, requireEmailVerified, userRoutes);
 app.use('/api/templates', authenticate, requireEmailVerified, templateRoutes);
+app.use('/api/clients', authenticate, requireEmailVerified, clientRoutes);
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'ok' }));

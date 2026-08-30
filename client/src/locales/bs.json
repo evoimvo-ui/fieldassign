@@ -5,6 +5,7 @@
     "activities": "Aktivnosti",
     "reports": "Izvještaji",
     "workers": "Radnici",
+    "clients": "Klijenti",
     "templates": "Šabloni"
   },
   "common": {
@@ -99,7 +100,9 @@
     "sortDefault": "Zadano sortiranje",
     "sortPriority": "Prioritet (visok prvo)",
     "sortTime": "Vrijeme početka",
-    "noSearchResults": "Nema rezultata za \"{{query}}\""
+    "noSearchResults": "Nema rezultata za \"{{query}}\"",
+    "selectClient": "Klijent",
+    "manualEntry": "— ručni unos —"
   },
   "status": {
     "pending": "Na čekanju",
@@ -152,6 +155,28 @@
     "workerSignatureLabel": "Potpis radnika",
     "clientSignatureLabel": "Potpis klijenta",
     "clearSignature": "Očisti"
+  },
+  "clients": {
+    "title": "Klijenti",
+    "newClient": "Novi klijent",
+    "editClient": "Uredi klijenta",
+    "name": "Naziv",
+    "namePlaceholder": "npr. Merkur d.o.o.",
+    "location": "Lokacija",
+    "contactPerson": "Kontakt osoba",
+    "phone": "Telefon",
+    "email": "Email",
+    "notes": "Napomene",
+    "noClients": "Nema klijenata. Dodajte prvog klijenta.",
+    "active": "Aktivan",
+    "inactive": "Neaktivan",
+    "activate": "Aktiviraj",
+    "deactivate": "Deaktiviraj",
+    "taskHistory": "Historija zadataka",
+    "noTaskHistory": "Nema zadataka za ovog klijenta",
+    "create": "Kreiraj klijenta",
+    "saving": "Čuvanje...",
+    "saveChanges": "Sačuvaj izmjene"
   },
   "templates": {
     "title": "Šabloni",

@@ -11,13 +11,14 @@ export default function TasksPage() {
 
   const [showModal, setShowModal] = useState(false);
   const [activityText, setActivityText] = useState('');
-  const [newTask, setNewTask] = useState({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '' });
+  const [newTask, setNewTask] = useState({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '', client: null });
   const [workers, setWorkers] = useState([]);
+  const [clients, setClients] = useState([]);
   const [workersError, setWorkersError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
   const [showEditModal, setShowEditModal] = useState(false);
-  const [editTask, setEditTask] = useState({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '' });
+  const [editTask, setEditTask] = useState({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '', client: null });
   const [savingEdit, setSavingEdit] = useState(false);
 
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,6 +41,10 @@ export default function TasksPage() {
       api.get('/users')
         .then(r => setWorkers(r.data))
         .catch(() => setWorkersError(t('tasks.loadingWorkers')));
+      
+      api.get('/clients')
+        .then(r => setClients(r.data.filter(c => c.active)))
+        .catch(() => {});
     }
   }, [fetchTasks, user?.role, t]);
 
@@ -74,7 +79,7 @@ export default function TasksPage() {
     try {
       await api.post('/tasks', newTask);
       setShowModal(false);
-      setNewTask({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '' });
+      setNewTask({ title: '', description: '', location: '', assignedTo: '', priority: 'medium', timeStart: '', timeEnd: '', client: null });
       fetchTasks();
     } catch (err) {
       alert(err.response?.data?.message || t('common.error'));
@@ -90,6 +95,7 @@ export default function TasksPage() {
       priority: task.priority,
       timeStart: task.timeStart || '',
       timeEnd: task.timeEnd || '',
+      client: task.client?._id || task.client || null,
     });
     setShowEditModal(true);
   };
@@ -164,6 +170,12 @@ export default function TasksPage() {
           </div>
 
           <div className="px-3 sm:px-4 py-3 border-b border-gray-100 space-y-2 text-sm">
+            {selectedTask.client && (
+              <div className="flex items-center gap-2 text-gray-600">
+                <span className="text-gray-400">🏢</span>
+                <span className="font-medium break-words">{selectedTask.client.name}</span>
+              </div>
+            )}
             {selectedTask.location && (
               <div className="flex items-start gap-2 text-gray-600">
                 <span className="text-gray-400 mt-0.5">📍</span>
@@ -388,6 +400,25 @@ export default function TasksPage() {
                 />
               </div>
               <div>
+                <label className="label">{t('tasks.selectClient')}</label>
+                <select
+                  className="input"
+                  value={newTask.client || ''}
+                  onChange={(e) => {
+                    const clientId = e.target.value;
+                    const selected = clients.find(c => c._id === clientId);
+                    setNewTask({
+                      ...newTask,
+                      client: clientId || null,
+                      location: selected ? selected.location : newTask.location,
+                    });
+                  }}
+                >
+                  <option value="">{t('tasks.manualEntry')}</option>
+                  {clients.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+                </select>
+              </div>
+              <div>
                 <label className="label">{t('tasks.location')}</label>
                 <input
                   className="input"
@@ -455,6 +486,26 @@ export default function TasksPage() {
                   required
                   disabled={savingEdit}
                 />
+              </div>
+              <div>
+                <label className="label">{t('tasks.selectClient')}</label>
+                <select
+                  className="input"
+                  value={editTask.client || ''}
+                  onChange={(e) => {
+                    const clientId = e.target.value;
+                    const selected = clients.find(c => c._id === clientId);
+                    setEditTask({
+                      ...editTask,
+                      client: clientId || null,
+                      location: selected ? selected.location : editTask.location,
+                    });
+                  }}
+                  disabled={savingEdit}
+                >
+                  <option value="">{t('tasks.manualEntry')}</option>
+                  {clients.map(c => <option key={c._id} value={c._id}>{c.name}</option>)}
+                </select>
               </div>
               <div>
                 <label className="label">{t('tasks.location')}</label>

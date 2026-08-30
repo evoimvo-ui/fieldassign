@@ -5,6 +5,7 @@
     "activities": "Activities",
     "reports": "Reports",
     "workers": "Workers",
+    "clients": "Clients",
     "templates": "Templates"
   },
   "common": {
@@ -99,7 +100,9 @@
     "sortDefault": "Default order",
     "sortPriority": "Priority (high first)",
     "sortTime": "Start time",
-    "noSearchResults": "No results for \"{{query}}\""
+    "noSearchResults": "No results for \"{{query}}\"",
+    "selectClient": "Client",
+    "manualEntry": "— manual entry —"
   },
   "status": {
     "pending": "Pending",
@@ -152,6 +155,28 @@
     "workerSignatureLabel": "Worker signature",
     "clientSignatureLabel": "Client signature",
     "clearSignature": "Clear"
+  },
+  "clients": {
+    "title": "Clients",
+    "newClient": "New client",
+    "editClient": "Edit client",
+    "name": "Name",
+    "namePlaceholder": "e.g. Merkur Ltd.",
+    "location": "Location",
+    "contactPerson": "Contact person",
+    "phone": "Phone",
+    "email": "Email",
+    "notes": "Notes",
+    "noClients": "No clients yet. Add your first client.",
+    "active": "Active",
+    "inactive": "Inactive",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "taskHistory": "Task history",
+    "noTaskHistory": "No tasks for this client",
+    "create": "Create client",
+    "saving": "Saving...",
+    "saveChanges": "Save changes"
   },
   "templates": {
     "title": "Templates",
