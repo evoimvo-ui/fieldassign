@@ -147,7 +147,11 @@
     "evidence": "evidence",
     "shareReport": "Share",
 "shareText": "Report: {{title}}",
-"shareNotSupported": "Sharing isn't supported on this device/browser — the PDF was downloaded, you can attach it manually in WhatsApp/Viber."
+"shareNotSupported": "Sharing isn't supported on this device/browser — the PDF was downloaded, you can attach it manually in WhatsApp/Viber.",
+    "signatures": "Signatures",
+    "workerSignatureLabel": "Worker signature",
+    "clientSignatureLabel": "Client signature",
+    "clearSignature": "Clear"
   },
   "templates": {
     "title": "Templates",

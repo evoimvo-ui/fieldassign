@@ -147,7 +147,11 @@
     "evidence": "dokaz(a)",
     "shareReport": "Podijeli",
 "shareText": "Izvještaj: {{title}}",
-"shareNotSupported": "Dijeljenje nije podržano na ovom uređaju/browseru — PDF je preuzet, možete ga ručno prikačiti u WhatsApp/Viber."
+"shareNotSupported": "Dijeljenje nije podržano na ovom uređaju/browseru — PDF je preuzet, možete ga ručno prikačiti u WhatsApp/Viber.",
+    "signatures": "Potpisi",
+    "workerSignatureLabel": "Potpis radnika",
+    "clientSignatureLabel": "Potpis klijenta",
+    "clearSignature": "Očisti"
   },
   "templates": {
     "title": "Šabloni",

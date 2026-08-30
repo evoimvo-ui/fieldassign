@@ -24,7 +24,11 @@ function getImageSize(dataUrl) {
  * Sve se dešava u browseru — fotografije se NIKAD ne šalju ni na jedan server
  * osim ako korisnik eksplicitno klikne "Pošalji" (vidi sendReportByEmail).
  */
-export async function generateReportPdf({ report, organization, photos = [], lang = 'bs' }) {
+export async function generateReportPdf({ 
+  report, organization, photos = [], 
+  workerSignature = null, clientSignature = null, 
+  lang = 'bs' 
+}) {
   const doc = new jsPDF({ unit: 'mm', format: 'a4' });
   const pageWidth = doc.internal.pageSize.getWidth();
   const pageHeight = doc.internal.pageSize.getHeight();
@@ -147,15 +151,25 @@ export async function generateReportPdf({ report, organization, photos = [], lan
   }
 
   // --- Potpis linija ---
-  if (y > pageHeight - 35) { doc.addPage(); y = margin; }
-  const sigY = Math.max(y + 15, pageHeight - 30);
+  if (y > pageHeight - 45) { doc.addPage(); y = margin; }
+  const sigLineY = Math.max(y + 20, pageHeight - 30);
+  const sigWidth = 65;
+  const sigImgHeight = 18;
+
+  if (workerSignature) {
+    doc.addImage(workerSignature, 'PNG', margin, sigLineY - sigImgHeight - 2, sigWidth, sigImgHeight);
+  }
+  if (clientSignature) {
+    doc.addImage(clientSignature, 'PNG', pageWidth - margin - sigWidth, sigLineY - sigImgHeight - 2, sigWidth, sigImgHeight);
+  }
+
   doc.setDrawColor(150);
-  doc.line(margin, sigY, margin + 70, sigY);
-  doc.line(pageWidth - margin - 70, sigY, pageWidth - margin, sigY);
+  doc.line(margin, sigLineY, margin + sigWidth, sigLineY);
+  doc.line(pageWidth - margin - sigWidth, sigLineY, pageWidth - margin, sigLineY);
   doc.setFontSize(8);
   doc.setTextColor(120);
-  doc.text(L.workerSig, margin, sigY + 4);
-  doc.text(L.companySig, pageWidth - margin - 70, sigY + 4);
+  doc.text(L.workerSig, margin, sigLineY + 4);
+  doc.text(L.companySig, pageWidth - margin - sigWidth, sigLineY + 4);
 
   return doc;
 }

@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import api from '../services/api.js';
 import useAuthStore from '../store/authStore.js';
 import { generateReportPdf, sendReportByEmail } from '../utils/generateReportPdf.js';
+import SignaturePad from '../components/SignaturePad.jsx';
 
 export default function ReportsPage() {
   const { t, i18n } = useTranslation();
@@ -17,6 +18,8 @@ export default function ReportsPage() {
 
   const [photos, setPhotos] = useState([]);
   const [photoPreviews, setPhotoPreviews] = useState([]);
+  const [workerSignature, setWorkerSignature] = useState(null);
+  const [clientSignature, setClientSignature] = useState(null);
   const fileInputRef = useRef(null);
 
   const [generatingPdf, setGeneratingPdf] = useState(false);
@@ -39,6 +42,8 @@ export default function ReportsPage() {
     setReportLoading(true);
     setPhotos([]);
     setPhotoPreviews([]);
+    setWorkerSignature(null);
+    setClientSignature(null);
     setSendStatus(null);
     try {
       const { data } = await api.get(`/reports/task/${task._id}`);
@@ -77,7 +82,7 @@ export default function ReportsPage() {
     setGeneratingPdf(true);
     try {
       const doc = await generateReportPdf({
-        report, organization, photos, lang: i18n.language,
+        report, organization, photos, workerSignature, clientSignature, lang: i18n.language,
       });
       doc.save(`izvjestaj-${report.task.title.replace(/\s+/g, '-')}.pdf`);
     } catch (err) {
@@ -93,7 +98,7 @@ export default function ReportsPage() {
     setGeneratingPdf(true);
     try {
       const doc = await generateReportPdf({
-        report, organization, photos, lang: i18n.language,
+        report, organization, photos, workerSignature, clientSignature, lang: i18n.language,
       });
       const blob = doc.output('blob');
       const filename = `izvjestaj-${report.task.title.replace(/\s+/g, '-')}.pdf`;
@@ -125,7 +130,7 @@ export default function ReportsPage() {
     setSendStatus(null);
     try {
       const doc = await generateReportPdf({
-        report, organization, photos, lang: i18n.language,
+        report, organization, photos, workerSignature, clientSignature, lang: i18n.language,
       });
       await sendReportByEmail({
         pdfDoc: doc,
@@ -299,6 +304,22 @@ export default function ReportsPage() {
             {photos.length > 0 && (
               <p className="text-xs text-gray-400">{photos.length} {t('reports.photosSelected')}</p>
             )}
+          </div>
+
+          <div className="card p-4 mb-4 print-hidden">
+            <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
+              {t('reports.signatures')}
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <SignaturePad
+                label={t('reports.workerSignatureLabel')}
+                onChange={setWorkerSignature}
+              />
+              <SignaturePad
+                label={t('reports.clientSignatureLabel')}
+                onChange={setClientSignature}
+              />
+            </div>
           </div>
 
           {/* Printable area */}
