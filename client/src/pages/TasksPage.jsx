@@ -182,6 +182,12 @@ export default function TasksPage() {
                 <span className="break-words">{selectedTask.location}</span>
               </div>
             )}
+            {selectedTask.scheduledDate && (
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                <span className="text-gray-400 dark:text-gray-500">📅</span>
+                <span>{new Date(selectedTask.scheduledDate).toLocaleDateString(i18nLocale(), { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>
+              </div>
+            )}
             {selectedTask.timeStart && (
               <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
                 <span className="text-gray-400 dark:text-gray-500">🕐</span>
@@ -340,6 +346,7 @@ export default function TasksPage() {
                   <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">{task.title}</div>
                   <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-gray-400 dark:text-gray-500">
                     {task.location && <span className="break-words">📍 {task.location}</span>}
+                    {task.scheduledDate && <span>📅 {new Date(task.scheduledDate).toLocaleDateString(i18nLocale(), { day: '2-digit', month: '2-digit', year: 'numeric' })}</span>}
                     {task.timeStart && <span>🕐 {task.timeStart}{task.timeEnd ? ` – ${task.timeEnd}` : ''}</span>}
                   </div>
                   {task.assignedTo && (
