@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import api from '../services/api.js';
 import useAuthStore from '../store/authStore.js';
 import useTaskStore from '../store/taskStore.js';
 import { format } from 'date-fns';
@@ -14,11 +15,24 @@ export default function DashboardPage() {
   const { tasks, loading, fetchTasks } = useTaskStore();
   const navigate = useNavigate();
 
+  const [workerStats, setWorkerStats] = useState([]);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [statsPeriod, setStatsPeriod] = useState('month'); // 'week' | 'month' | 'all'
+
   const dateLocale = i18n.language === 'bs' ? bs : enUS;
 
   useEffect(() => {
     fetchTasks({ date: format(new Date(), 'yyyy-MM-dd') });
   }, [fetchTasks]);
+
+  useEffect(() => {
+    if (user?.role !== 'admin') return;
+    setStatsLoading(true);
+    api.get('/reports/worker-stats', { params: { period: statsPeriod } })
+      .then(r => setWorkerStats(r.data))
+      .catch(() => setWorkerStats([]))
+      .finally(() => setStatsLoading(false));
+  }, [statsPeriod, user?.role]);
 
   const completed = tasks.filter(t => t.status === 'completed').length;
   const inprogress = tasks.filter(t => t.status === 'inprogress').length;
@@ -100,6 +114,68 @@ export default function DashboardPage() {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {user?.role === 'admin' && (
+        <div className="mt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
+            <h2 className="text-sm font-semibold text-gray-700">{t('dashboard.workerStats')}</h2>
+            <div className="flex flex-wrap gap-1.5">
+              {['week', 'month', 'all'].map((p) => (
+                <button
+                  key={p}
+                  onClick={() => setStatsPeriod(p)}
+                  className={`text-xs px-3 py-1.5 rounded-full border transition-colors min-h-[32px] ${
+                    statsPeriod === p
+                      ? 'bg-brand-400 text-white border-brand-600'
+                      : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                  }`}
+                >
+                  {t(`dashboard.period${p.charAt(0).toUpperCase() + p.slice(1)}`)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {statsLoading ? (
+            <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>
+          ) : workerStats.length === 0 ? (
+            <div className="card p-8 text-center text-sm text-gray-400">{t('dashboard.noStats')}</div>
+          ) : (
+            <div className="space-y-2">
+              {workerStats.map((w) => {
+                const initials = w.workerName?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || '?';
+                return (
+                  <div key={w.workerId} className="card p-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center text-xs font-semibold text-brand-600 flex-shrink-0">
+                        {initials}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-medium text-gray-900 truncate">{w.workerName}</div>
+                        <div className="text-xs text-gray-400 truncate">
+                          {w.completed} {t('dashboard.tasksCompleted')} · {w.rejected} {t('dashboard.tasksRejected')}
+                          {w.avgDurationMinutes != null && (
+                            <> · {Math.round(w.avgDurationMinutes)} min {t('dashboard.avgDuration')}</>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-sm font-semibold text-brand-600 flex-shrink-0">
+                        {Math.round(w.completionRate)}%
+                      </div>
+                    </div>
+                    <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-brand-400 rounded-full transition-all"
+                        style={{ width: `${Math.min(100, Math.round(w.completionRate))}%` }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>

@@ -61,7 +61,15 @@
     "tasks": "zadataka",
     "todayTasks": "Zadaci za danas",
     "allTasks": "Svi zadaci →",
-    "noTasks": "Nema zadataka za danas"
+    "noTasks": "Nema zadataka za danas",
+    "workerStats": "Statistike po radnicima",
+    "periodWeek": "Ova sedmica",
+    "periodMonth": "Ovaj mjesec",
+    "periodAll": "Sve vrijeme",
+    "noStats": "Nema podataka za odabrani period",
+    "tasksCompleted": "završeno",
+    "tasksRejected": "odbijeno",
+    "avgDuration": "prosječno trajanje"
   },
   "tasks": {
     "title": "Zadaci",

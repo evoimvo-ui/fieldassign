@@ -61,7 +61,15 @@
     "tasks": "tasks",
     "todayTasks": "Today's tasks",
     "allTasks": "All tasks →",
-    "noTasks": "No tasks for today"
+    "noTasks": "No tasks for today",
+    "workerStats": "Worker statistics",
+    "periodWeek": "This week",
+    "periodMonth": "This month",
+    "periodAll": "All time",
+    "noStats": "No data for the selected period",
+    "tasksCompleted": "completed",
+    "tasksRejected": "rejected",
+    "avgDuration": "avg duration"
   },
   "tasks": {
     "title": "Tasks",
