@@ -149,7 +149,7 @@ export default function ReportsPage() {
     }
   };
 
-  const ReportListPanel = () => (
+  const reportListPanel = (
     <div className="h-full w-full md:w-72 border-r border-gray-100 dark:border-gray-800 overflow-y-auto px-3 sm:px-4 py-4 bg-white dark:bg-gray-900 flex-shrink-0">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
         <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100">{t('reports.title')}</h1>
@@ -191,7 +191,7 @@ export default function ReportsPage() {
     </div>
   );
 
-  const ReportDetailPanel = () => (
+  const reportDetailPanel = (
     <div className="flex-1 overflow-y-auto px-3 sm:px-6 py-4 sm:py-6 h-full bg-gray-50 dark:bg-gray-950">
       {!selected ? (
         <div className="flex items-center justify-center h-full min-h-[40vh]">
@@ -457,11 +457,11 @@ export default function ReportsPage() {
   return (
     <div className="h-full md:flex md:overflow-hidden flex flex-col md:flex-row">
       <div className="md:hidden flex-1 overflow-hidden">
-        {selected ? <ReportDetailPanel /> : <ReportListPanel />}
+        {selected ? reportDetailPanel : reportListPanel}
       </div>
       <div className="hidden md:flex md:h-full md:w-full">
-        <ReportListPanel />
-        <ReportDetailPanel />
+        {reportListPanel}
+        {reportDetailPanel}
       </div>
 
       {/* Send email modal */}

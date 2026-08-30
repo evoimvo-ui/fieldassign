@@ -235,7 +235,7 @@ export default function TasksPage() {
                     <div className="flex-1 pb-1 min-w-0">
                       <div className="flex flex-wrap items-baseline gap-2">
                         <span className="text-xs text-gray-400 dark:text-gray-500">
-                          {new Date(a.timestamp).toLocaleTimeString(i18nLocale(), { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(a.timestamp).toLocaleString(i18nLocale(), { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
                         </span>
                         <span className="text-xs text-gray-700 dark:text-gray-300 break-words">{getActivityText(a)}</span>
                       </div>
