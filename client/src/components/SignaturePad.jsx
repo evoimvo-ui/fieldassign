@@ -73,12 +73,12 @@ export default function SignaturePad({ label, onChange, height = 140 }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-1.5">
-        <span className="text-xs font-medium text-gray-500">{label}</span>
+        <span className="text-xs font-medium text-gray-500 dark:text-gray-400">{label}</span>
         {hasSignature && (
           <button
             type="button"
             onClick={handleClear}
-            className="text-xs text-gray-400 hover:text-red-500"
+            className="text-xs text-gray-400 dark:text-gray-500 hover:text-red-500"
           >
             ✕ {t('reports.clearSignature')}
           </button>
@@ -87,7 +87,7 @@ export default function SignaturePad({ label, onChange, height = 140 }) {
       <canvas
         ref={canvasRef}
         style={{ height, touchAction: 'none' }}
-        className="w-full border border-gray-200 rounded-lg bg-white cursor-crosshair"
+        className="w-full border border-gray-200 dark:border-gray-700 rounded-lg bg-white cursor-crosshair"
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

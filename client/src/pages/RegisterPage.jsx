@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/authStore.js';
 import LanguageSwitcher from '../components/LanguageSwitcher.jsx';
+import ThemeToggle from '../components/ThemeToggle.jsx';
 
 export default function RegisterPage() {
   const { t } = useTranslation();
@@ -47,19 +48,20 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
-        <div className="flex justify-end mb-4">
+        <div className="flex items-center justify-end gap-2 mb-4">
           <LanguageSwitcher />
+          <ThemeToggle />
         </div>
 
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-semibold text-gray-900">FieldAssign</h1>
-          <p className="text-sm text-gray-500 mt-1">{t('auth.tagline')}</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">FieldAssign</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('auth.tagline')}</p>
         </div>
 
         <div className="card p-6">
-          <h2 className="text-base font-semibold text-gray-900 mb-5">{t('auth.register')}</h2>
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('auth.register')}</h2>
 
           {error && (
             <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg mb-4">{error}</div>
@@ -88,7 +90,7 @@ export default function RegisterPage() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-gray-500 mt-4">
+        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
           {t('auth.haveAccount')}{' '}
           <Link to="/login" className="text-brand-600 hover:text-brand-800 font-medium">{t('auth.loginLink')}</Link>
         </p>

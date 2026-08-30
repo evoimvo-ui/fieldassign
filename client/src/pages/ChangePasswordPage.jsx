@@ -51,14 +51,14 @@ export default function ChangePasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
           <div className="w-16 h-16 rounded-2xl bg-brand-50 flex items-center justify-center text-brand-600 mb-4">
             🔒
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Promjena lozinke</h1>
-          <p className="text-sm text-gray-500 mt-1 text-center">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Promjena lozinke</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 text-center">
             Molimo promijenite svoju privremenu lozinku
           </p>
         </div>
@@ -77,7 +77,7 @@ export default function ChangePasswordPage() {
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
               <div className="space-y-4">
                 <div>
-                  <label className="text-xs font-medium text-gray-700 mb-1.5 block">Trenutna lozinka</label>
+                  <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 block">Trenutna lozinka</label>
                   <input 
                     type="password"
                     className="input"
@@ -88,7 +88,7 @@ export default function ChangePasswordPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-700 mb-1.5 block">Nova lozinka</label>
+                  <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 block">Nova lozinka</label>
                   <input 
                     type="password"
                     className="input"
@@ -99,7 +99,7 @@ export default function ChangePasswordPage() {
                   />
                 </div>
                 <div>
-                  <label className="text-xs font-medium text-gray-700 mb-1.5 block">Potvrdi novu lozinku</label>
+                  <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1.5 block">Potvrdi novu lozinku</label>
                   <input 
                     type="password"
                     className="input"

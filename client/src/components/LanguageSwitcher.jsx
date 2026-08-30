@@ -12,7 +12,7 @@ export default function LanguageSwitcher() {
   return (
     <button
       onClick={toggle}
-      className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors"
+      className="flex items-center gap-1 px-2 py-1 rounded-md text-xs font-medium text-gray-500 dark:text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:bg-gray-800 transition-colors"
       title="Promijeni jezik / Change language"
     >
       <span className="text-sm">{i18n.language === 'bs' ? '🇧🇦' : '🇬🇧'}</span>

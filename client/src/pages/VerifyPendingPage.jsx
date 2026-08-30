@@ -69,7 +69,7 @@ export default function VerifyPendingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <div className="flex justify-end mb-4">
           <LanguageSwitcher />
@@ -82,8 +82,8 @@ export default function VerifyPendingPage() {
             className="w-20 h-20 mx-auto mb-4 rounded-2xl object-contain shadow-sm"
             draggable={false}
           />
-          <h1 className="text-2xl font-semibold text-gray-900">FieldAssign</h1>
-          <p className="text-sm text-gray-500 mt-1">{t('layout.tagline')}</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">FieldAssign</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('layout.tagline')}</p>
         </div>
 
         <div className="card p-6">
@@ -95,14 +95,14 @@ export default function VerifyPendingPage() {
             </div>
           </div>
 
-          <h2 className="text-base font-semibold text-gray-900 text-center mb-2">
+          <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 text-center mb-2">
             {t('verifyPending.title')}
           </h2>
-          <p className="text-sm text-gray-600 text-center mb-5">
+          <p className="text-sm text-gray-600 dark:text-gray-400 text-center mb-5">
             {t('verifyPending.description', { email: user?.email || '' })}
           </p>
 
-          <div className="flex items-center justify-center px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg mb-5">
+          <div className="flex items-center justify-center px-3 py-2 bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-700 rounded-lg mb-5">
             <span className="text-sm font-medium text-gray-800 truncate">{user?.email}</span>
           </div>
 
@@ -185,10 +185,10 @@ export default function VerifyPendingPage() {
             </form>
           )}
 
-          <div className="mt-5 pt-4 border-t border-gray-100">
+          <div className="mt-5 pt-4 border-t border-gray-100 dark:border-gray-800">
             <button
               onClick={handleLogout}
-              className="w-full text-sm text-gray-500 hover:text-gray-700 font-medium py-2"
+              className="w-full text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300 font-medium py-2"
             >
               {t('verifyPending.logout')}
             </button>
@@ -196,15 +196,15 @@ export default function VerifyPendingPage() {
         </div>
 
         <footer className="mt-10 text-center">
-          <p className="text-xs text-gray-500 tracking-wider uppercase mb-4">
+          <p className="text-xs text-gray-500 dark:text-gray-400 tracking-wider uppercase mb-4">
             © {new Date().getFullYear()} EI-APPS. All rights reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-gray-500">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-gray-500 dark:text-gray-400">
             <a
               href="https://ei-apps.com/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Privacy Policy
             </a>
@@ -212,7 +212,7 @@ export default function VerifyPendingPage() {
               href="https://ei-apps.com/tos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Terms of Service
             </a>
@@ -220,7 +220,7 @@ export default function VerifyPendingPage() {
               href="https://ei-apps.com/dpa"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               DPA
             </a>
@@ -228,13 +228,13 @@ export default function VerifyPendingPage() {
               href="https://ei-apps.com/refund-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Refund Policy
             </a>
             <a
               href="mailto:info@ei-apps.com"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Contact
             </a>

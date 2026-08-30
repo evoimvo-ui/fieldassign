@@ -3,6 +3,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useAuthStore from '../store/authStore.js';
 import LanguageSwitcher from './LanguageSwitcher.jsx';
+import ThemeToggle from './ThemeToggle.jsx';
 
 export default function Layout() {
   const { t } = useTranslation();
@@ -31,9 +32,9 @@ export default function Layout() {
   const initials = user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'U';
 
   const Sidebar = () => (
-    <aside className="w-64 md:w-56 bg-white border-r border-gray-100 flex flex-col flex-shrink-0 h-full">
+    <aside className="w-64 md:w-56 bg-white dark:bg-gray-900 border-r border-gray-100 dark:border-gray-800 flex flex-col flex-shrink-0 h-full">
       {/* Logo */}
-      <div className="px-4 py-4 border-b border-gray-100">
+      <div className="px-4 py-4 border-b border-gray-100 dark:border-gray-800">
         <div className="flex items-center gap-2.5">
           <img
             src="/FAicon-512.png"
@@ -42,11 +43,11 @@ export default function Layout() {
             draggable={false}
           />
           <div className="min-w-0 flex-1">
-            <div className="text-sm font-semibold text-gray-900 truncate">FieldAssign</div>
-            <div className="text-xs text-gray-400 mt-0.5 truncate">{organization?.name || t('layout.tagline')}</div>
+            <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">FieldAssign</div>
+            <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 truncate">{organization?.name || t('layout.tagline')}</div>
           </div>
           <button
-            className="md:hidden text-gray-400 hover:text-gray-700 flex items-center justify-center w-10 h-10 rounded-lg -mr-2"
+            className="md:hidden text-gray-400 dark:text-gray-500 hover:text-gray-700 dark:text-gray-300 flex items-center justify-center w-10 h-10 rounded-lg -mr-2"
             onClick={() => setSidebarOpen(false)}
             aria-label="Close menu"
           >
@@ -69,7 +70,7 @@ export default function Layout() {
                 `flex items-center gap-2.5 px-3 py-3 rounded-lg text-sm transition-colors min-h-[44px] ${
                   isActive
                     ? 'bg-brand-50 text-brand-600 font-medium'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                    : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-950 hover:text-gray-900 dark:text-gray-100'
                 }`
               }
             >
@@ -81,9 +82,10 @@ export default function Layout() {
       </nav>
 
       {/* User + Language */}
-      <div className="px-3 py-3 border-t border-gray-100 space-y-2">
-        <div className="flex justify-start">
+      <div className="px-3 py-3 border-t border-gray-100 dark:border-gray-800 space-y-2">
+        <div className="flex items-center justify-between gap-2">
           <LanguageSwitcher />
+          <ThemeToggle />
         </div>
 
         <div className="flex items-center gap-2.5">
@@ -91,12 +93,12 @@ export default function Layout() {
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-xs font-medium text-gray-900 truncate">{user?.name}</div>
-            <div className="text-xs text-gray-400 capitalize truncate">{user?.role}</div>
+            <div className="text-xs font-medium text-gray-900 dark:text-gray-100 truncate">{user?.name}</div>
+            <div className="text-xs text-gray-400 dark:text-gray-500 capitalize truncate">{user?.role}</div>
           </div>
           <button
             onClick={handleLogout}
-            className="text-gray-400 hover:text-gray-600 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:text-gray-400 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg"
             title={t('common.logout')}
             aria-label="Logout"
           >
@@ -108,12 +110,12 @@ export default function Layout() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 overflow-hidden w-full">
+    <div className="min-h-screen flex flex-col md:flex-row bg-gray-50 dark:bg-gray-950 overflow-hidden w-full">
       {/* Mobile top bar */}
-      <header className="md:hidden flex items-center gap-3 px-3 py-2 bg-white border-b border-gray-100 sticky top-0 z-40 flex-shrink-0">
+      <header className="md:hidden flex items-center gap-3 px-3 py-2 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 sticky top-0 z-40 flex-shrink-0">
         <button
           onClick={() => setSidebarOpen(true)}
-          className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-gray-700 hover:bg-gray-50 -ml-1"
+          className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-950 -ml-1"
           aria-label="Open menu"
         >
           <span className="text-xl leading-none">☰</span>
@@ -125,7 +127,7 @@ export default function Layout() {
             className="w-7 h-7 rounded-lg object-contain flex-shrink-0"
             draggable={false}
           />
-          <span className="text-sm font-semibold text-gray-900 truncate">FieldAssign</span>
+          <span className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">FieldAssign</span>
         </div>
         <div className="w-9 h-9 rounded-full bg-brand-50 flex items-center justify-center text-xs font-semibold text-brand-600 flex-shrink-0 -mr-1">
           {initials}

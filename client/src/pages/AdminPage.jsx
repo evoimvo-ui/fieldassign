@@ -96,7 +96,7 @@ export default function AdminPage() {
   if (user?.role !== 'admin') {
     return (
       <div className="flex items-center justify-center h-full min-h-[40vh] px-4">
-        <p className="text-sm text-gray-400 text-center">{t('admin.noAccess')}</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 text-center">{t('admin.noAccess')}</p>
       </div>
     );
   }
@@ -106,8 +106,8 @@ export default function AdminPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 sm:mb-6 gap-3">
         <div className="min-w-0">
-          <h1 className="text-base font-semibold text-gray-900 break-words">{t('admin.title')}</h1>
-          <p className="text-xs text-gray-400 mt-0.5 break-words">
+          <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100 break-words">{t('admin.title')}</h1>
+          <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 break-words">
             {workers.filter(w => w.active).length} {t('admin.active')} ·{' '}
             {t('admin.plan')}: <span className="font-medium capitalize">{organization?.plan || 'free'}</span> ·{' '}
             {t('admin.limit')}: {organization?.maxUsers} {t('admin.users')}
@@ -124,9 +124,9 @@ export default function AdminPage() {
 
       {/* Workers list */}
       {loading ? (
-        <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>
+        <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">{t('common.loading')}</div>
       ) : workers.length === 0 ? (
-        <div className="card p-8 text-center text-sm text-gray-400 break-words">{t('admin.noWorkers')}</div>
+        <div className="card p-8 text-center text-sm text-gray-400 dark:text-gray-500 break-words">{t('admin.noWorkers')}</div>
       ) : (
         <div className="space-y-2">
           {workers.map(w => {
@@ -136,13 +136,13 @@ export default function AdminPage() {
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <div className={`w-10 h-10 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 ${
-                      w.active ? 'bg-brand-50 text-brand-600' : 'bg-gray-100 text-gray-400'
+                      w.active ? 'bg-brand-50 text-brand-600' : 'bg-gray-100 dark:bg-gray-800 text-gray-400 dark:text-gray-500'
                     }`}>
                       {initials}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-sm font-medium text-gray-900 break-words">{w.name}</div>
-                      <div className="text-xs text-gray-400 break-words">{w.email} · <span className="capitalize">{w.role}</span></div>
+                      <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">{w.name}</div>
+                      <div className="text-xs text-gray-400 dark:text-gray-500 break-words">{w.email} · <span className="capitalize">{w.role}</span></div>
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 sm:justify-end">
@@ -178,12 +178,12 @@ export default function AdminPage() {
       )}
 
       {/* Plan info */}
-      <div className="card p-4 mt-6 bg-gray-50 border-dashed">
-        <div className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">{t('admin.subscription')}</div>
+      <div className="card p-4 mt-6 bg-gray-50 dark:bg-gray-950 border-dashed">
+        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-2">{t('admin.subscription')}</div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="min-w-0">
             <div className="text-sm font-medium capitalize break-words">{organization?.plan || 'Free'}</div>
-            <div className="text-xs text-gray-400 mt-0.5 break-words">
+            <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 break-words">
               {organization?.planStatus === 'active' ? t('admin.subscriptionActive') : organization?.planStatus || '—'}
             </div>
           </div>
@@ -195,7 +195,7 @@ export default function AdminPage() {
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowModal(false)}>
           <div className="modal-panel max-w-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('admin.newWorker')}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('admin.newWorker')}</h2>
             {error && <div className="bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg mb-4 break-words">{error}</div>}
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
@@ -228,7 +228,7 @@ export default function AdminPage() {
       {showEditModal && editWorker && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowEditModal(false)}>
           <div className="modal-panel max-w-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('admin.editWorker')}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('admin.editWorker')}</h2>
             {error && <div className="bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg mb-4 break-words">{error}</div>}
             <form onSubmit={handleUpdateWorker} className="space-y-4">
               <div>
@@ -243,10 +243,10 @@ export default function AdminPage() {
                 <label className="label">{t('admin.role')}</label>
                 {editWorker.id === user._id ? (
                   <>
-                    <select className="input bg-gray-50 text-gray-500 cursor-not-allowed" value={editWorker.role} disabled>
+                    <select className="input bg-gray-50 dark:bg-gray-950 text-gray-500 dark:text-gray-400 cursor-not-allowed" value={editWorker.role} disabled>
                       <option value="admin">{t('admin.roleAdmin')}</option>
                     </select>
-                    <p className="text-xs text-gray-500 mt-1">{t('admin.cannotChangeOwnRole')}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{t('admin.cannotChangeOwnRole')}</p>
                   </>
                 ) : (
                   <select className="input" value={editWorker.role} onChange={e => setEditWorker({...editWorker, role: e.target.value})}>
@@ -271,12 +271,12 @@ export default function AdminPage() {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowGeneratedPasswordModal(false)}>
           <div className="modal-panel max-w-md">
             <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mx-auto mb-4">✅</div>
-            <h2 className="text-xl font-bold text-gray-900 text-center mb-2 break-words">{t('admin.workerCreated')}</h2>
-            <p className="text-gray-600 text-sm text-center mb-6 break-words">{t('admin.tempPassword')}</p>
-            <div className="bg-gray-100 p-4 rounded-lg text-center mb-6 break-all">
-              <p className="text-2xl font-mono font-bold text-gray-900">{generatedPassword}</p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 text-center mb-2 break-words">{t('admin.workerCreated')}</h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm text-center mb-6 break-words">{t('admin.tempPassword')}</p>
+            <div className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-center mb-6 break-all">
+              <p className="text-2xl font-mono font-bold text-gray-900 dark:text-gray-100">{generatedPassword}</p>
             </div>
-            <p className="text-gray-500 text-xs text-center mb-6 break-words">{t('admin.tempPasswordNote')}</p>
+            <p className="text-gray-500 dark:text-gray-400 text-xs text-center mb-6 break-words">{t('admin.tempPasswordNote')}</p>
             <button className="btn btn-primary w-full justify-center" onClick={() => setShowGeneratedPasswordModal(false)}>
               {t('common.close')}
             </button>

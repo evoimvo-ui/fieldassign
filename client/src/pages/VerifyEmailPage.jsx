@@ -53,7 +53,7 @@ export default function VerifyEmailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center p-4">
       <div className="w-full max-w-sm">
         <div className="flex justify-end mb-4">
           <LanguageSwitcher />
@@ -66,8 +66,8 @@ export default function VerifyEmailPage() {
             className="w-20 h-20 mx-auto mb-4 rounded-2xl object-contain shadow-sm"
             draggable={false}
           />
-          <h1 className="text-2xl font-semibold text-gray-900">FieldAssign</h1>
-          <p className="text-sm text-gray-500 mt-1">{t('layout.tagline')}</p>
+          <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">FieldAssign</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('layout.tagline')}</p>
         </div>
 
         <div className="card p-6 text-center">
@@ -95,7 +95,7 @@ export default function VerifyEmailPage() {
                   ></path>
                 </svg>
               </div>
-              <h2 className="text-base font-semibold text-gray-900 mb-2">
+              <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">
                 {t('verifyEmail.verifying')}
               </h2>
             </>
@@ -119,7 +119,7 @@ export default function VerifyEmailPage() {
                   </svg>
                 </div>
               </div>
-              <h2 className="text-base font-semibold text-gray-900 mb-6">
+              <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-6">
                 {t('verifyEmail.success')}
               </h2>
               <button
@@ -149,10 +149,10 @@ export default function VerifyEmailPage() {
                   </svg>
                 </div>
               </div>
-              <h2 className="text-base font-semibold text-gray-900 mb-2">
+              <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">
                 {t('verifyEmail.error')}
               </h2>
-              <p className="text-sm text-gray-600 mb-6">{errorMessage}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">{errorMessage}</p>
               <button
                 onClick={handleGoToLogin}
                 className="btn btn-primary w-full justify-center py-2.5"
@@ -164,15 +164,15 @@ export default function VerifyEmailPage() {
         </div>
 
         <footer className="mt-10 text-center">
-          <p className="text-xs text-gray-500 tracking-wider uppercase mb-4">
+          <p className="text-xs text-gray-500 dark:text-gray-400 tracking-wider uppercase mb-4">
             © {new Date().getFullYear()} EI-APPS. All rights reserved.
           </p>
-          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-gray-500">
+          <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-xs text-gray-500 dark:text-gray-400">
             <a
               href="https://ei-apps.com/privacy-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Privacy Policy
             </a>
@@ -180,7 +180,7 @@ export default function VerifyEmailPage() {
               href="https://ei-apps.com/tos"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Terms of Service
             </a>
@@ -188,7 +188,7 @@ export default function VerifyEmailPage() {
               href="https://ei-apps.com/dpa"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               DPA
             </a>
@@ -196,13 +196,13 @@ export default function VerifyEmailPage() {
               href="https://ei-apps.com/refund-policy"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Refund Policy
             </a>
             <a
               href="mailto:info@ei-apps.com"
-              className="hover:text-gray-700 hover:underline tracking-wide uppercase"
+              className="hover:text-gray-700 dark:text-gray-300 hover:underline tracking-wide uppercase"
             >
               Contact
             </a>

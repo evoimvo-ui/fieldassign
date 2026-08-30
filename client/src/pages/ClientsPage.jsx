@@ -92,7 +92,7 @@ export default function ClientsPage() {
   if (user?.role !== 'admin') {
     return (
       <div className="flex items-center justify-center h-full min-h-[40vh] px-4">
-        <p className="text-sm text-gray-400 text-center">{t('admin.noAccess')}</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500 text-center">{t('admin.noAccess')}</p>
       </div>
     );
   }
@@ -101,7 +101,7 @@ export default function ClientsPage() {
     <div className="px-3 sm:px-6 py-4 sm:py-6 max-w-2xl mx-auto w-full">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 sm:mb-6 gap-3">
-        <h1 className="text-base font-semibold text-gray-900 break-words">{t('clients.title')}</h1>
+        <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100 break-words">{t('clients.title')}</h1>
         <button className="btn btn-primary self-start sm:self-auto" onClick={() => setShowModal(true)}>
           + {t('clients.newClient')}
         </button>
@@ -113,17 +113,17 @@ export default function ClientsPage() {
 
       {/* Clients list */}
       {loading ? (
-        <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>
+        <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">{t('common.loading')}</div>
       ) : clients.length === 0 ? (
-        <div className="card p-8 text-center text-sm text-gray-400 break-words">{t('clients.noClients')}</div>
+        <div className="card p-8 text-center text-sm text-gray-400 dark:text-gray-500 break-words">{t('clients.noClients')}</div>
       ) : (
         <div className="space-y-2">
           {clients.map(c => (
             <div key={c._id} className="card p-3 sm:p-4 cursor-pointer hover:border-brand-200 transition-colors" onClick={() => openHistory(c)}>
               <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-gray-900 break-words">{c.name}</div>
-                  <div className="text-xs text-gray-400 break-words">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">{c.name}</div>
+                  <div className="text-xs text-gray-400 dark:text-gray-500 break-words">
                     {c.location || '—'} · {c.contactPerson || '—'} · {c.phone || '—'}
                   </div>
                 </div>
@@ -154,7 +154,7 @@ export default function ClientsPage() {
       {showModal && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowModal(false)}>
           <div className="modal-panel max-w-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('clients.newClient')}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('clients.newClient')}</h2>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
                 <label className="label">{t('clients.name')}</label>
@@ -197,7 +197,7 @@ export default function ClientsPage() {
       {showEditModal && editForm && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowEditModal(false)}>
           <div className="modal-panel max-w-sm">
-            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('clients.editClient')}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('clients.editClient')}</h2>
             <form onSubmit={handleUpdate} className="space-y-4">
               <div>
                 <label className="label">{t('clients.name')}</label>
@@ -240,23 +240,23 @@ export default function ClientsPage() {
       {showHistoryModal && selectedClient && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-2 sm:p-4" onClick={e => e.target === e.currentTarget && setShowHistoryModal(false)}>
           <div className="modal-panel max-w-md w-full max-h-[90vh] flex flex-col">
-            <h2 className="text-base font-semibold text-gray-900 mb-1">{t('clients.taskHistory')}</h2>
-            <p className="text-xs text-gray-400 mb-4">{selectedClient.name}</p>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1">{t('clients.taskHistory')}</h2>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mb-4">{selectedClient.name}</p>
 
             <div className="flex-1 overflow-y-auto space-y-2 pr-1">
               {historyLoading ? (
-                <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>
+                <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">{t('common.loading')}</div>
               ) : history.length === 0 ? (
-                <div className="text-sm text-gray-400 text-center py-8">{t('clients.noTaskHistory')}</div>
+                <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">{t('clients.noTaskHistory')}</div>
               ) : (
                 history.map(task => (
-                  <div key={task._id} className="p-3 rounded-lg border border-gray-100 bg-white">
+                  <div key={task._id} className="p-3 rounded-lg border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-gray-400">{format(new Date(task.scheduledDate), 'dd.MM.yyyy.')}</span>
+                      <span className="text-xs text-gray-400 dark:text-gray-500">{format(new Date(task.scheduledDate), 'dd.MM.yyyy.')}</span>
                       <span className={`badge badge-${task.status} text-[10px]`}>{t(`status.${task.status}`)}</span>
                     </div>
-                    <div className="text-sm font-medium text-gray-900">{task.title}</div>
-                    <div className="text-xs text-gray-400 mt-1">{task.assignedTo?.name}</div>
+                    <div className="text-sm font-medium text-gray-900 dark:text-gray-100">{task.title}</div>
+                    <div className="text-xs text-gray-400 dark:text-gray-500 mt-1">{task.assignedTo?.name}</div>
                   </div>
                 ))
               )}

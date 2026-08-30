@@ -141,19 +141,19 @@ export default function TasksPage() {
   const statusKeys = ['all', 'pending', 'accepted', 'inprogress', 'completed'];
 
   const TaskDetailPanel = () => (
-    <div className="h-full overflow-y-auto flex flex-col bg-white md:border-l md:border-gray-100">
+    <div className="h-full overflow-y-auto flex flex-col bg-white dark:bg-gray-900 md:border-l md:border-gray-100 dark:border-gray-800">
       {selectedTask ? (
         <>
-          <div className="px-3 sm:px-4 py-3 border-b border-gray-100 flex items-start gap-2">
+          <div className="px-3 sm:px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex items-start gap-2">
             <button
               onClick={handleBackToList}
-              className="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-gray-600 hover:bg-gray-50 -ml-2"
+              className="md:hidden min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-950 -ml-2"
               aria-label="Back"
             >
               ←
             </button>
             <div className="flex-1 min-w-0">
-              <h2 className="text-sm font-semibold text-gray-900 mb-2 break-words">{selectedTask.title}</h2>
+              <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2 break-words">{selectedTask.title}</h2>
               <div className="flex gap-1.5 flex-wrap items-center">
                 <span className={`badge badge-${selectedTask.status}`}>{t(`status.${selectedTask.status}`)}</span>
                 <span className={`badge badge-${selectedTask.priority}`}>{t(`priority.${selectedTask.priority}`)}</span>
@@ -169,31 +169,31 @@ export default function TasksPage() {
             </div>
           </div>
 
-          <div className="px-3 sm:px-4 py-3 border-b border-gray-100 space-y-2 text-sm">
+          <div className="px-3 sm:px-4 py-3 border-b border-gray-100 dark:border-gray-800 space-y-2 text-sm">
             {selectedTask.client && (
-              <div className="flex items-center gap-2 text-gray-600">
-                <span className="text-gray-400">🏢</span>
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                <span className="text-gray-400 dark:text-gray-500">🏢</span>
                 <span className="font-medium break-words">{selectedTask.client.name}</span>
               </div>
             )}
             {selectedTask.location && (
-              <div className="flex items-start gap-2 text-gray-600">
-                <span className="text-gray-400 mt-0.5">📍</span>
+              <div className="flex items-start gap-2 text-gray-600 dark:text-gray-400">
+                <span className="text-gray-400 dark:text-gray-500 mt-0.5">📍</span>
                 <span className="break-words">{selectedTask.location}</span>
               </div>
             )}
             {selectedTask.timeStart && (
-              <div className="flex items-center gap-2 text-gray-600">
-                <span className="text-gray-400">🕐</span>
+              <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
+                <span className="text-gray-400 dark:text-gray-500">🕐</span>
                 <span>{selectedTask.timeStart}{selectedTask.timeEnd ? ` – ${selectedTask.timeEnd}` : ''}</span>
               </div>
             )}
             {selectedTask.description && (
-              <p className="text-gray-500 text-xs leading-relaxed break-words">{selectedTask.description}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-xs leading-relaxed break-words">{selectedTask.description}</p>
             )}
           </div>
 
-          <div className="px-3 sm:px-4 py-3 border-b border-gray-100 space-y-2">
+          <div className="px-3 sm:px-4 py-3 border-b border-gray-100 dark:border-gray-800 space-y-2">
             {selectedTask.status === 'pending' && (
               <>
                 <button className="btn btn-primary w-full justify-center" onClick={() => handleStatusChange('accepted')}>
@@ -218,28 +218,28 @@ export default function TasksPage() {
 
           <div className="px-3 sm:px-4 py-3 flex-1">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{t('tasks.activities')}</h3>
-              <span className="text-xs text-gray-400">{activities.length}</span>
+              <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">{t('tasks.activities')}</h3>
+              <span className="text-xs text-gray-400 dark:text-gray-500">{activities.length}</span>
             </div>
 
             {activities.length === 0 ? (
-              <p className="text-xs text-gray-400">{t('tasks.noActivities')}</p>
+              <p className="text-xs text-gray-400 dark:text-gray-500">{t('tasks.noActivities')}</p>
             ) : (
               <div className="space-y-0">
                 {activities.map((a, i) => (
                   <div key={a._id || i} className="flex gap-2.5 pb-3">
                     <div className="flex flex-col items-center">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-400 mt-1 flex-shrink-0" />
-                      {i < activities.length - 1 && <div className="w-px flex-1 bg-gray-100 mt-1" />}
+                      {i < activities.length - 1 && <div className="w-px flex-1 bg-gray-100 dark:bg-gray-800 mt-1" />}
                     </div>
                     <div className="flex-1 pb-1 min-w-0">
                       <div className="flex flex-wrap items-baseline gap-2">
-                        <span className="text-xs text-gray-400">
+                        <span className="text-xs text-gray-400 dark:text-gray-500">
                           {new Date(a.timestamp).toLocaleTimeString(i18nLocale(), { hour: '2-digit', minute: '2-digit' })}
                         </span>
-                        <span className="text-xs text-gray-700 break-words">{getActivityText(a)}</span>
+                        <span className="text-xs text-gray-700 dark:text-gray-300 break-words">{getActivityText(a)}</span>
                       </div>
-                      {a.note && <div className="text-xs text-gray-400 mt-0.5 break-words">{a.note}</div>}
+                      {a.note && <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 break-words">{a.note}</div>}
                       {a.gps?.lat && <div className="text-xs text-brand-600 mt-0.5">📍 {t('tasks.gpsRecorded')}</div>}
                     </div>
                   </div>
@@ -264,16 +264,16 @@ export default function TasksPage() {
         </>
       ) : (
         <div className="flex-1 flex items-center justify-center px-4 py-10">
-          <p className="text-sm text-gray-400 text-center">{t('tasks.selectTask')}</p>
+          <p className="text-sm text-gray-400 dark:text-gray-500 text-center">{t('tasks.selectTask')}</p>
         </div>
       )}
     </div>
   );
 
   const TaskListPanel = () => (
-    <div className="h-full overflow-y-auto px-3 sm:px-6 py-4 sm:py-6 md:border-r md:border-gray-100 flex-1">
+    <div className="h-full overflow-y-auto px-3 sm:px-6 py-4 sm:py-6 md:border-r md:border-gray-100 dark:border-gray-800 flex-1">
       <div className="flex items-center justify-between mb-4 gap-2">
-        <h1 className="text-base font-semibold text-gray-900">{t('tasks.title')}</h1>
+        <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100">{t('tasks.title')}</h1>
         {user?.role === 'admin' && (
           <button className="btn btn-primary flex-shrink-0" onClick={() => setShowModal(true)}>
             <span className="sm:inline">{t('tasks.newTask')}</span>
@@ -312,7 +312,7 @@ export default function TasksPage() {
             className={`text-xs px-3 py-2 rounded-full border transition-colors min-h-[36px] ${
               statusFilter === s
                 ? 'bg-brand-400 text-white border-brand-600'
-                : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-950'
             }`}
           >
             {s === 'all' ? t('tasks.filterAll') : t(`status.${s}`)}
@@ -320,14 +320,14 @@ export default function TasksPage() {
         ))}
       </div>
 
-      {loading && <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>}
+      {loading && <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">{t('common.loading')}</div>}
 
       <div className="space-y-2">
         {filtered.map((task) => (
           <div
             key={task._id}
             onClick={() => handleSelectTask(task)}
-            className={`card p-3 sm:p-4 cursor-pointer transition-all hover:border-gray-200 ${
+            className={`card p-3 sm:p-4 cursor-pointer transition-all hover:border-gray-200 dark:border-gray-700 ${
               selectedTask?._id === task._id ? 'border-brand-400 ring-1 ring-brand-400/20' : ''
             }`}
           >
@@ -337,13 +337,13 @@ export default function TasksPage() {
                   { high: 'bg-red-400', medium: 'bg-amber-400', low: 'bg-brand-400' }[task.priority]
                 }`} />
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-gray-900 break-words">{task.title}</div>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-gray-400">
+                  <div className="text-sm font-medium text-gray-900 dark:text-gray-100 break-words">{task.title}</div>
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-xs text-gray-400 dark:text-gray-500">
                     {task.location && <span className="break-words">📍 {task.location}</span>}
                     {task.timeStart && <span>🕐 {task.timeStart}{task.timeEnd ? ` – ${task.timeEnd}` : ''}</span>}
                   </div>
                   {task.assignedTo && (
-                    <div className="text-xs text-gray-400 mt-0.5 break-words">→ {task.assignedTo.name}</div>
+                    <div className="text-xs text-gray-400 dark:text-gray-500 mt-0.5 break-words">→ {task.assignedTo.name}</div>
                   )}
                 </div>
               </div>
@@ -357,7 +357,7 @@ export default function TasksPage() {
         ))}
 
         {!loading && filtered.length === 0 && (
-          <div className="card p-8 text-center text-sm text-gray-400 break-words">
+          <div className="card p-8 text-center text-sm text-gray-400 dark:text-gray-500 break-words">
             {searchQuery.trim()
               ? t('tasks.noSearchResults', { query: searchQuery })
               : t('tasks.noTasks')}
@@ -387,7 +387,7 @@ export default function TasksPage() {
           onClick={(e) => e.target === e.currentTarget && setShowModal(false)}
         >
           <div className="modal-panel max-w-md">
-            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('tasks.newTask')}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('tasks.newTask')}</h2>
             <form onSubmit={handleCreateTask} className="space-y-4">
               <div>
                 <label className="label">{t('tasks.taskName')}</label>
@@ -474,7 +474,7 @@ export default function TasksPage() {
           onClick={(e) => e.target === e.currentTarget && !savingEdit && setShowEditModal(false)}
         >
           <div className="modal-panel max-w-md">
-            <h2 className="text-base font-semibold text-gray-900 mb-5">{t('tasks.editTask')}</h2>
+            <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">{t('tasks.editTask')}</h2>
             <form onSubmit={handleUpdateTask} className="space-y-4">
               <div>
                 <label className="label">{t('tasks.taskName')}</label>

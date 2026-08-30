@@ -20,7 +20,7 @@ function ProtectedRoute({ children, requirePasswordChange = false }) {
   const { token, loading, user } = useAuthStore();
   const location = useLocation();
   
-  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400">Učitavanje...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400 dark:text-gray-500">Učitavanje...</div>;
   if (!token) return <Navigate to="/login" state={{ from: location.pathname + location.search }} replace />;
   
   // If we're not already on the change password page and must change password
@@ -45,7 +45,7 @@ function VerifyPendingRoute({ children }) {
   const { token, loading, user } = useAuthStore();
   const location = useLocation();
 
-  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400">Učitavanje...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400 dark:text-gray-500">Učitavanje...</div>;
   if (!token) return <Navigate to="/login" state={{ from: location.pathname + location.search }} replace />;
   
   // Ako je već verifikovan, ne smije biti na ovoj stranici
@@ -58,17 +58,21 @@ function VerifyPendingRoute({ children }) {
 
 function PublicRoute({ children }) {
   const { token, loading } = useAuthStore();
-  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400">Učitavanje...</div>;
+  if (loading) return <div className="flex items-center justify-center h-screen text-gray-400 dark:text-gray-500">Učitavanje...</div>;
   if (token) return <Navigate to="/" replace />;
   return children;
 }
 
+import useThemeStore from './store/themeStore.js';
+
 export default function App() {
   const init = useAuthStore((s) => s.init);
+  const initTheme = useThemeStore((s) => s.init);
 
   useEffect(() => {
     init();
-  }, [init]);
+    initTheme();
+  }, [init, initTheme]);
 
   return (
     <BrowserRouter>

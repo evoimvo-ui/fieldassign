@@ -187,7 +187,7 @@ export default function TemplatesPage() {
     <div className="h-full overflow-y-auto px-3 sm:px-6 py-4 sm:py-6">
       <div className="max-w-4xl mx-auto w-full">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-5 sm:mb-6 gap-3">
-          <h1 className="text-base font-semibold text-gray-900 break-words">{t('templates.title')}</h1>
+          <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100 break-words">{t('templates.title')}</h1>
           {user?.role === 'admin' && (
             <button className="btn btn-primary self-start sm:self-auto" onClick={openCreate}>
               {t('templates.newTemplate')}
@@ -202,10 +202,10 @@ export default function TemplatesPage() {
           <div className="bg-red-50 text-red-600 text-sm px-3 py-2 rounded-lg mb-4">{workersError}</div>
         )}
 
-        {loading && <div className="text-sm text-gray-400 text-center py-8">{t('common.loading')}</div>}
+        {loading && <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">{t('common.loading')}</div>}
 
         {!loading && templates.length === 0 && (
-          <div className="card p-8 text-center text-sm text-gray-400">{t('templates.noTemplates')}</div>
+          <div className="card p-8 text-center text-sm text-gray-400 dark:text-gray-500">{t('templates.noTemplates')}</div>
         )}
 
         <div className="space-y-3">
@@ -216,7 +216,7 @@ export default function TemplatesPage() {
                   <span className="text-lg leading-none mt-0.5 flex-shrink-0">🔁</span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <div className="text-sm font-semibold text-gray-900 truncate">{tmpl.title}</div>
+                      <div className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{tmpl.title}</div>
                       <span className={`badge ${tmpl.status === 'active' ? 'badge-active' : 'badge-paused'}`}>
                         {tmpl.status === 'active' ? t('templates.statusActive') : t('templates.statusPaused')}
                       </span>
@@ -225,7 +225,7 @@ export default function TemplatesPage() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400 flex-wrap">
+                    <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-400 dark:text-gray-500 flex-wrap">
                       {tmpl.location && <span>📍 {tmpl.location}</span>}
                       {tmpl.timeStart && (
                         <span>🕐 {tmpl.timeStart}{tmpl.timeEnd ? ` – ${tmpl.timeEnd}` : ''}</span>
@@ -233,16 +233,16 @@ export default function TemplatesPage() {
                       {tmpl.assignedTo?.name && <span>👤 {tmpl.assignedTo.name}</span>}
                     </div>
 
-                    <div className="mt-2 text-xs text-gray-600">
+                    <div className="mt-2 text-xs text-gray-600 dark:text-gray-400">
                       <span className="font-medium">{t('templates.type')}:</span>{' '}
                       {getRecurrenceSummary(tmpl, t)}
                     </div>
-                    <div className="mt-1 text-xs text-gray-500">
+                    <div className="mt-1 text-xs text-gray-500 dark:text-gray-400">
                       <span className="font-medium">{t('templates.period')}:</span>{' '}
                       {getPeriodSummary(tmpl, t)}
                     </div>
                     {tmpl.description && (
-                      <p className="mt-2 text-xs text-gray-500 leading-relaxed">{tmpl.description}</p>
+                      <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{tmpl.description}</p>
                     )}
                   </div>
                 </div>
@@ -275,8 +275,8 @@ export default function TemplatesPage() {
             className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4"
             onClick={(e) => e.target === e.currentTarget && closeModal()}
           >
-            <div className="bg-white rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
-              <h2 className="text-base font-semibold text-gray-900 mb-5">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-6 w-full max-w-lg max-h-[90vh] overflow-y-auto">
+              <h2 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-5">
                 {editingId ? t('templates.editTemplate') : t('templates.newTemplate')}
               </h2>
 
@@ -364,11 +364,11 @@ export default function TemplatesPage() {
                   />
                 </div>
 
-                <div className="pt-2 border-t border-gray-100">
+                <div className="pt-2 border-t border-gray-100 dark:border-gray-800">
                   <label className="label">{t('templates.type')}</label>
                   <div className="flex gap-3 flex-wrap">
                     {['daily', 'weekly', 'monthly'].map((type) => (
-                      <label key={type} className="flex items-center gap-1.5 text-sm text-gray-700 cursor-pointer">
+                      <label key={type} className="flex items-center gap-1.5 text-sm text-gray-700 dark:text-gray-300 cursor-pointer">
                         <input
                           type="radio"
                           name="recurrenceType"
@@ -401,7 +401,7 @@ export default function TemplatesPage() {
                             className={`min-h-[44px] min-w-[44px] flex items-center justify-center px-3 py-2 sm:py-1.5 rounded-lg text-xs border transition-colors ${
                               selected
                                 ? 'bg-brand-400 text-white border-brand-600'
-                                : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+                                : 'bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-950'
                             }`}
                           >
                             {t(`templates.${WEEKDAY_KEYS[d]}`)}
@@ -428,7 +428,7 @@ export default function TemplatesPage() {
                         })
                       }
                     />
-                    <p className="text-xs text-gray-400 mt-1">{t('templates.dayOfMonthHint')}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{t('templates.dayOfMonthHint')}</p>
                   </div>
                 )}
 
@@ -455,7 +455,7 @@ export default function TemplatesPage() {
                   </div>
                 </div>
 
-                <div className="flex gap-2 justify-end pt-2 border-t border-gray-100">
+                <div className="flex gap-2 justify-end pt-2 border-t border-gray-100 dark:border-gray-800">
                   <button type="button" className="btn" onClick={closeModal}>
                     {t('common.cancel')}
                   </button>
