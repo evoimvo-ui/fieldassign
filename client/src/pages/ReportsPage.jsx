@@ -5,6 +5,7 @@ import api from '../services/api.js';
 import useAuthStore from '../store/authStore.js';
 import { generateReportPdf, sendReportByEmail } from '../utils/generateReportPdf.js';
 import SignaturePad from '../components/SignaturePad.jsx';
+import { reportDrafts } from '../utils/reportDrafts.js';
 
 export default function ReportsPage() {
   const { t, i18n } = useTranslation();
@@ -21,6 +22,7 @@ export default function ReportsPage() {
   const [workerSignature, setWorkerSignature] = useState(null);
   const [clientSignature, setClientSignature] = useState(null);
   const fileInputRef = useRef(null);
+  const isInitialLoad = useRef(true);
 
   const [generatingPdf, setGeneratingPdf] = useState(false);
 
@@ -36,6 +38,43 @@ export default function ReportsPage() {
       .catch(() => setTasks([]))
       .finally(() => setLoading(false));
   }, [date]);
+
+  // Učitavanje nacrta iz IndexedDB
+  useEffect(() => {
+    if (!selected?._id) return;
+    
+    isInitialLoad.current = true;
+    reportDrafts.get(selected._id).then(draft => {
+      if (draft) {
+        setPhotos(draft.photos || []);
+        setWorkerSignature(draft.workerSignature || null);
+        setClientSignature(draft.clientSignature || null);
+        
+        // Ponovo kreiraj URL-ove za preview (oni ne preživljavaju refresh)
+        if (draft.photos && draft.photos.length > 0) {
+          const urls = draft.photos.map(file => URL.createObjectURL(file));
+          setPhotoPreviews(urls);
+        }
+      }
+      isInitialLoad.current = false;
+    });
+  }, [selected?._id]);
+
+  // Spremanje nacrta u IndexedDB pri svakoj promjeni
+  useEffect(() => {
+    if (!selected?._id || isInitialLoad.current) return;
+
+    const saveDraft = async () => {
+      await reportDrafts.set(selected._id, {
+        photos,
+        workerSignature,
+        clientSignature,
+        updatedAt: new Date().toISOString()
+      });
+    };
+
+    saveDraft();
+  }, [photos, workerSignature, clientSignature, selected?._id]);
 
   const loadReport = async (task) => {
     setSelected(task);
@@ -139,6 +178,8 @@ export default function ReportsPage() {
         taskTitle: report.task.title,
         api,
       });
+      // Obriši nacrt nakon uspješnog slanja
+      await reportDrafts.remove(report.task._id);
       setSendStatus({ type: 'success', message: t('reports.sendSuccess') });
       setRecipientEmail('');
       setTimeout(() => setShowSendModal(false), 1500);
